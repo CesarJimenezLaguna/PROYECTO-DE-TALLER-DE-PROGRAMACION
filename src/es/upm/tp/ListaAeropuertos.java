@@ -93,13 +93,13 @@ public class ListaAeropuertos {
      * @return devuelve el aeropuerto que coincide con el código pedido por parámetro
      */
     public Aeropuerto buscarAeropuerto(String codigo) {
-        Aeropuerto resul = null;
+        Aeropuerto resultado = null;
         for (int i = 0; i < listaAeropuertos.length; i++) {
             if (listaAeropuertos[i].getCodigo().equals(codigo)) {
-                resul = listaAeropuertos[i];
+                resultado = listaAeropuertos[i];
             }
         }
-        return resul;
+        return resultado;
     }
 
     /**
