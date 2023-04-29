@@ -1,18 +1,38 @@
 package es.upm.tp;
 
+import java.util.Objects;
+import java.util.Scanner;
+
 /**
- * Description of the class
+ * ListaAviones es una clase que encapsula las variables enteras usadas para definir los aviones,
+ * así como también contiene funciones para buscar, seleccionar e insertar aviones en el array de nombre ListaAviones
+ * También escribe un fichero.csv con los datos de cada avión
  *
- * @author
- * @author
- * @version     1.0
+ * @author César Jiménez Laguna
+ * @author Iñaki Ramos Iturria
+ * @version 1.0
  */
 public class ListaAviones {
 
     /**
-     * Constructor of the class
+     * Atributo que devuelve la capacidad de la ListaAvion
+     */
+    private int capacidad;
+
+    /**
+     * Atributo que devuelve la ocupacion del avión dentro de la lista
+     */
+    private int ocupacion;
+
+    /**
+     * Atributo que contiene el array donde están los aviones
+     */
+    private Avion[] ListaAviones;
+
+    /**
+     * Constructor que crea un array con la cantidad de aviones recibidos
      *
-     * @param capacidad
+     * @param capacidad especifica la capacidad de la lista que contiene los aviones
      */
     public ListaAviones(int capacidad) {
         this.capacidad = capacidad;

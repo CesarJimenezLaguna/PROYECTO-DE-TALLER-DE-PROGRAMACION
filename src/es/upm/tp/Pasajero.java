@@ -1,11 +1,16 @@
 package es.upm.tp;
 
+import javax.swing.plaf.TreeUI;
+import java.util.IllegalFormatCodePointException;
+import java.util.Locale;
+import java.util.Scanner;
+
 /**
- * Description of the class
+ * Pasajero es una clase que encapsula las variables enteras usadas para definir un pasajero concreto
  *
- * @author
- * @author
- * @version     1.0
+ * @author César Jiménez Laguna
+ * @author Iñaki Ramos Iturria
+ * @version 1.0
  */
 public class Pasajero {
 
@@ -45,13 +50,13 @@ public class Pasajero {
     private ListaBilletes listaBilletesPasajeros;
 
     /**
-     * Constructor of the class
+     * Constructor que crea un pasajero con los parámetros (nombre, apellidos, numero del DNI, letra del DNI y email) que recibe.
      *
-     * @param nombre
-     * @param apellidos
-     * @param numeroDNI
-     * @param letraDNI
-     * @param email
+     * @param nombre    nombre del pasajero
+     * @param apellidos apellidos del pasajero
+     * @param numeroDNI número del DNI del pasajero
+     * @param letraDNI  letra del DNI del pasajero
+     * @param email     email del pasajero
      */
     public Pasajero(String nombre, String apellidos, long numeroDNI, char letraDNI, String email, int maxBilletes) {
         this.nombre = nombre;
@@ -294,5 +299,28 @@ public class Pasajero {
      * @return Devuelve true si el email cumple todos los requisitos y si no los cumple devuelve false
      */
     // Correcto: cristian.ramirez@upm.es, incorrecto: cristian.ramirez@gmail.com, cristian-23@upm.es, cristian.@upm.es
-    public static boolean correctoEmail(String email);
+    public static boolean correctoEmail(String email) {
+        String[] emailCompleto = email.split("@");
+        String primeraParte = emailCompleto[0];
+        String segundaParte = emailCompleto[1];
+        int longitud = primeraParte.length();
+        boolean correcto = true;
+        if (segundaParte.equals("alumnos.upm.es") || segundaParte.equals("upm.es")) {
+            if (primeraParte.charAt(0) == '.' || primeraParte.charAt(longitud - 1) == '.') {
+                System.out.println("Email incorrecto.");
+                correcto = false;
+            } else {
+                for (int i = 0; i < longitud; i++) {
+                    if ((primeraParte.charAt(i) < 65 || primeraParte.charAt(i) > 90) && (primeraParte.charAt(i) < 97 || primeraParte.charAt(i) > 122) && primeraParte.charAt(i) != '.') {
+                        System.out.println("Email incorrecto");
+                        correcto = false;
+                    }
+                }
+            }
+        } else {
+            System.out.println("Email incorrecto.");
+            correcto = false;
+        }
+        return correcto;
+    }
 }
