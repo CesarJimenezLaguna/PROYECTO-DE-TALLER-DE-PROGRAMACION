@@ -1,17 +1,35 @@
 package es.upm.tp;
 
 /**
- * Description of the class
+ * ListaBilletes es una clase que encapsula las variables enteras usadas para definir los billetes,
+ * así como también contiene funciones bara buscar, seleccionar e insertar billetes en el array de nombre listaBilletes
+ * También escribe un fichero.csv con los datos de cada billete
  *
- * @author
- * @author
- * @version     1.0
+ * @author César Jiménez Laguna
+ * @author Iñaki Ramos Iturria
+ * @version 1.0
  */
 public class ListaBilletes {
+
     /**
-     * Constructor of the class
+     * Atributo que contiene la capacidad de la ListaBilletes
+     */
+    private int capacidad;
+
+    /**
+     * Atributo que contiene la ocupación de un billete dentro de la ListaBilletes
+     */
+    private int ocupacion;
+
+    /**
+     * Atributo que contiene el array donde están los billetes
+     */
+    private Billete[] ListaBilletes;
+
+    /**
+     * Constructor que crea un array con la cantidad de billetes recibidos.
      *
-     * @param capacidad
+     * @param capacidad especifica la capacidad de la lista que contiene los billetes
      */
     public ListaBilletes(int capacidad);
     public int getOcupacion();
