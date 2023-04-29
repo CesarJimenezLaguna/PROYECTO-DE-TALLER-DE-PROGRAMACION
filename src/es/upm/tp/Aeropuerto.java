@@ -3,11 +3,12 @@ package es.upm.tp;
 /**
  * Aeropuerto es una clase que encapsula las variables enteras usadas para definir un aeropuerto concreto
  *
- * @author      César Jiménez Laguna
- * @author      Iñaki Ramos Iturria
- * @version     1.0
+ * @author César Jiménez Laguna
+ * @author Iñaki Ramos Iturria
+ * @version 1.0
  */
 public class Aeropuerto {
+
     /**
      * Atributo que contiene el nombre del aeropuerto
      */
@@ -36,13 +37,13 @@ public class Aeropuerto {
     /**
      * Constructor que crea un aeropuerto con los parámetros que recibe
      *
-     * @param nombre especifica el nombre del aeropuerto
-     * @param codigo especifica el código IATA del aeropuerto
-     * @param latitud especifica la latitud del aeropuerto
-     * @param longitud especifica la longitud del aeropuerto
+     * @param nombre     especifica el nombre del aeropuerto
+     * @param codigo     especifica el código IATA del aeropuerto
+     * @param latitud    especifica la latitud del aeropuerto
+     * @param longitud   especifica la longitud del aeropuerto
      * @param terminales especifica las terminales del aeropuerto
      */
-    public Aeropuerto(String nombre, String codigo, double latitud, double longitud, int terminales){
+    public Aeropuerto(String nombre, String codigo, double latitud, double longitud, int terminales) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.latitud = latitud;
@@ -52,6 +53,7 @@ public class Aeropuerto {
 
     /**
      * Getter del atributo nombre
+     *
      * @return Devuelve el nombre del aeropuerto
      */
     public String getNombre() {
@@ -60,6 +62,7 @@ public class Aeropuerto {
 
     /**
      * Getter del atributo código
+     *
      * @return Devuelve el código IATA del aeropuerto
      */
     public String getCodigo() {
@@ -68,6 +71,7 @@ public class Aeropuerto {
 
     /**
      * Getter del atributo latitud
+     *
      * @return Devuelve la latitud del aeropuerto
      */
     public double getLatitud() {
@@ -76,6 +80,7 @@ public class Aeropuerto {
 
     /**
      * Getter del atributo longitud
+     *
      * @return Devuelve la longitud del aeropuerto
      */
     public double getLongitud() {
@@ -84,6 +89,7 @@ public class Aeropuerto {
 
     /**
      * Getter del atributo terminales
+     *
      * @return Devuelve las terminales del aeropuerto
      */
     public int getTerminales() {
@@ -92,11 +98,12 @@ public class Aeropuerto {
 
     /**
      * Devuelve la distancia entre dos aeropuertos
+     *
      * @param destino aeropuerto de destio al que llega el avión
      * @return distancia entre el aeropuerto de origen y el aeropuerto de destino
      */
     // Calcula la distancia entre el aeropuerto que recibe el mensaje y el aeropuerto "destino" siguiendo la fórmula del enunciado
-    public double distancia(Aeropuerto destino){
+    public double distancia(Aeropuerto destino) {
         double lat_A = this.latitud;
         double lat_B = destino.latitud;
         double long_A = this.longitud;
@@ -108,16 +115,18 @@ public class Aeropuerto {
 
     /**
      * Devuelve los datos caracteristicos de un aeropuerto en un formato específico, ("Adolfo Suarez Madrid - Barajas(MAD), en (40.4927751 40.4927751), con 4 terminales)")
+     *
      * @return nombre, código, latitud, longitud y número de terminales del aeropuerto
      */
     // Crea un String con los datos de un aeropuerto con el siguiente formato:
     // Adolfo Suarez Madrid - Barajas(MAD), en (40.4927751 -3.5778), con 4 terminales
-    public String toString(){
+    public String toString() {
         return nombre + "(" + codigo + "), en (" + latitud + " " + longitud + "), con " + terminales + " terminales";
     }
+
     // Crea un String con los datos de un aeropuerto con el siguiente formato:
     // Adolfo Suarez Madrid - Barajas(MAD)
-    public String toStringSimple(){
+    public String toStringSimple() {
         return nombre + "(" + codigo + ")";
     }
 }
