@@ -21,13 +21,40 @@ public class Billete {
      * @param columna
      * @param precio
      */
-    public Billete(String localizador, Vuelo vuelo, Pasajero pasajero, TIPO tipo, int fila, int columna, double precio);
-    public String getLocalizador();
-    public Vuelo getVuelo();
-    public Pasajero getPasajero();
-    public TIPO getTipo();
-    public int getFila();
-    public int getColumna();
+    public Billete(String localizador, Vuelo vuelo, Pasajero pasajero, TIPO tipo, int fila, int columna, double precio){
+        this.localizador = localizador;
+        this.vuelo = vuelo;
+        this.pasajero = pasajero;
+        this.tipo = tipo;
+        this.fila = fila;
+        this.columna = columna;
+        this.precio = precio;
+    }
+
+    public String getLocalizador(){
+        return localizador;
+    }
+
+    public Vuelo getVuelo(){
+        return vuelo;
+    }
+
+    public Pasajero getPasajero(){
+        return pasajero;
+    }
+
+    public TIPO getTipo(){
+        return tipo;
+    }
+
+    public int getFila(){
+        return columna;
+    }
+
+    public int getColumna(){
+        char [] columna
+    }
+
     // Ejemplos: "1A" para el asiento con fila 1 y columna 1, "3D" para el asiento con fila 3 y columna 4
     public String getAsiento();
     public double getPrecio();
