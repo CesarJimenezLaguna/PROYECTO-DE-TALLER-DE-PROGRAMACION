@@ -1,18 +1,39 @@
 package es.upm.tp;
 
+import java.util.Objects;
+import java.util.Scanner;
+
 /**
- * Description of the class
+ * ListaPasajeros es una clase que encapsula las variables enteras usadas para definir los pasajeros,
+ * así como también contiene funciones bara buscar, seleccionar e insertar estos mismos pasajeros en el array
+ * de nombre listaPasajeros
+ * También escribe un fichero.csv con los datos de cada pasajero
  *
- * @author
- * @author
- * @version     1.0
+ * @author César Jiménez Laguna
+ * @author Iñaki Ramos Iturria
+ * @version 1.0
  */
 public class ListaPasajeros {
 
     /**
-     * Constructor of the class
+     * Atributo que devuelve la capacidad de la ListaPasajeros
+     */
+    private int capacidad;
+
+    /**
+     * Atributo que contiene la ocupación de los pasajeros dentro de la lista
+     */
+    private int ocupacion;
+
+    /**
+     * Atributo que contiene el array donde se guardan los pasajeros
+     */
+    private Pasajero[] listaPasajeros;
+
+    /**
+     * Constructor de la clase, crea un vector que contiene la cantidad de pasajeros
      *
-     * @param capacidad
+     * @param capacidad especifica la capacidad de la lista de pasajeros
      */
     public ListaPasajeros(int capacidad);
     public int getOcupacion();
