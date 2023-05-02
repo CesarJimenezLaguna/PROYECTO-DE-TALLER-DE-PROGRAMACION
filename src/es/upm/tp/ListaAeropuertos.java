@@ -1,5 +1,9 @@
 package es.upm.tp;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -12,6 +16,7 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class ListaAeropuertos {
+
 
     /**
      * Atributo que devuelve la capacidad de la ListaAeropuerto
@@ -34,6 +39,7 @@ public class ListaAeropuertos {
      * @param capacidad especifica la capacidad del aeropuerto
      */
     public ListaAeropuertos(int capacidad) {
+        this.ocupacion = 0;
         this.capacidad = capacidad;
         listaAeropuertos = new Aeropuerto[capacidad];
     }
@@ -53,11 +59,11 @@ public class ListaAeropuertos {
      * @return estaLlena
      */
     public boolean estaLlena() {
-        boolean llena = false;
-        if (ocupacion == listaAeropuertos.length) {
-            llena = true;
+        boolean estaLlena = false;
+        if (ocupacion == capacidad) {
+            estaLlena = true;
         }
-        return llena;
+        return estaLlena;
     }
 
     /**
@@ -67,7 +73,7 @@ public class ListaAeropuertos {
      * @return Devuelve el aeropuerto que se encuentre en la posición recibida por el parámetro
      */
     public Aeropuerto getAeropuerto(int i) {
-        return listaAeropuertos[i];
+        return listaAeropuertos[i - 1];
     }
 
     /**
@@ -124,11 +130,91 @@ public class ListaAeropuertos {
         return buscarAeropuerto(codigoIATA);
     }
 
+    /**
+     * Escribe en un fichero los aerpuertos con todas sus características (nombre, latitud, longitud...).
+     * @param nombre nombre del fichero en el que se guardan los datos.
+     * @return devuelve true si se ha escrito en el fichero.
+     */
     // Genera un fichero CSV con la lista de aeropuertos, sobreescribiendolo
-    public boolean escribirAeropuertosCsv(String nombre);
+    public boolean escribirAeropuertosCsv(String nombre) {
+        FileWriter fileWriter = null;
+        boolean ficheroEscrito = true;
 
+        try {
+            fileWriter = new FileWriter(nombre, false);
+
+            for (int i = 0; i < ocupacion; i++) {
+                Aeropuerto aeropuerto = listaAeropuertos[i];
+                fileWriter.write(aeropuerto.getNombre() + ";" + aeropuerto.getCodigo() + ";" + aeropuerto.getLatitud() + ";" + aeropuerto.getLongitud() + ";"
+                        + aeropuerto.getTerminales());
+                if (i != (ocupacion - 1)) {
+                    fileWriter.write("\n");
+                }
+            }
+        }
+        catch (FileNotFoundException exception) {
+            System.out.println("Fichero " + nombre + " no encontrado.");
+            ficheroEscrito = false;
+        }
+        catch (IOException exception1) {
+            System.out.println("Error de escritura en fichero " + nombre + ".");
+            ficheroEscrito = false;
+        }
+
+        finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                }
+                catch (IOException ioException) {
+                    System.out.println("Error de cierre del fichero " + nombre + ".");
+                    ficheroEscrito = false;
+                }
+            }
+        }
+        return ficheroEscrito;
+    }
+
+    /**
+     * Crea una lista de aeropuertos importada de un archivo de texto CSV
+     *
+     * @param fichero   nombre del fichero de donde se van a leer los datos
+     * @param capacidad capacidad máxima que tendrá la lista
+     * @return genera una lista de los aeropuertos con los datos del fichero CSV
+     */
     //Métodos estáticos
     //Genera una lista de aeropuertos a partir del fichero CSV, usando el argumento como   
     //capacidad máxima de la lista
-    public static ListaAeropuertos leerAeropuertosCsv(String fichero, int capacidad);
+    public static ListaAeropuertos leerAeropuertosCsv(String fichero, int capacidad) {
+        ListaAeropuertos listaImportada = new ListaAeropuertos(capacidad);
+        Scanner scanner = null;
+        String texto;
+
+        try{
+            scanner = new Scanner(new FileReader(fichero));
+            String codigo, nombre;
+            double latitud, longitud;
+            int terminalesAeropuerto;
+            do{
+                texto = scanner.nextLine();
+                String [] array = texto.split(";");
+                nombre = array[0];
+                codigo = array[1];
+                latitud = Double.parseDouble(array[2]);
+                longitud = Double.parseDouble(array[3]);
+                terminalesAeropuerto = Integer.parseInt(array[4]);
+
+                listaImportada.insertarAeropuerto(new Aeropuerto(nombre, codigo, latitud, longitud, terminalesAeropuerto));
+            }while(scanner.hasNext());
+        }
+        catch (FileNotFoundException exception) {
+            System.out.println("El fichero " + fichero + " no se ha encontrado");
+        }
+        finally{
+            if (scanner != null){
+                scanner.close();
+            }
+        }
+        return listaImportada;
+    }
 }
