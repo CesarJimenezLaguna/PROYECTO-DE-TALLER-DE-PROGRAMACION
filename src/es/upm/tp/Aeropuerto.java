@@ -121,7 +121,7 @@ public class Aeropuerto {
     // Crea un String con los datos de un aeropuerto con el siguiente formato:
     // Adolfo Suarez Madrid - Barajas(MAD), en (40.4927751 -3.5778), con 4 terminales
     public String toString() {
-        return nombre + "(" + codigo + "), en (" + latitud + " " + longitud + "), con " + terminales + " terminales";
+        return nombre + "(" + codigo + "), en (" + longitud + " " + latitud + "), con " + terminales + " terminales";
     }
 
     // Crea un String con los datos de un aeropuerto con el siguiente formato:
