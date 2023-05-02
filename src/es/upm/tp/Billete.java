@@ -1,5 +1,8 @@
 package es.upm.tp;
 
+import java.util.Random;
+import java.util.Scanner;
+
 /**
  * Billete es una clase que encapsula las variables enteras usadas para definir un billete concreto
  *
@@ -158,7 +161,7 @@ public class Billete {
             precio = precio * 1.5;
         }
         if (tipo == TIPO.PREFERENTE) {
-            precio = precio + 1.25;
+            precio = precio * 1.25;
         }
         return precio;
     }
@@ -181,7 +184,19 @@ public class Billete {
      * @return Devuelve True si se ha podido cancelar y false si no se ha podido
      */
     // Cancela este billete, eliminandolo de la lista de billetes del vuelo y del pasajero correspondiente
-    public boolean cancelar();
+    public boolean cancelar(){
+        boolean cancelar = true;
+        if (!getVuelo().desocuparAsiento(localizador)){
+            cancelar = false;
+        }
+        if (!getPasajero().cancelarBillete(localizador)){
+            cancelar = false;
+        }
+        if (cancelar){
+            System.out.println("Billete " + localizador + " cancelado.");
+        }
+        return cancelar;
+    }
 
     /**
      * Función que imprime la información del billete en un fichero siguiendo los ejemplos del enunciado
@@ -204,7 +219,13 @@ public class Billete {
     // Genera un localizador de billete. Este consistirá en una cadena de 10 caracteres, de los cuales los seis
     // primeros será el ID del vuelo asociado y los 4 siguientes serán letras mayúsculas aleatorias. Ejemplo: PM0123ABCD
     // NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.  
-    public static String generarLocalizador(Random rand, String idVuelo);
+    public static String generarLocalizador(Random rand, String idVuelo){
+        Character posicion1 = (char) ('A' + rand.nextInt(26));
+        Character posicion2 = (char) ('A' + rand.nextInt(26));
+        Character posicion3 = (char) ('A' + rand.nextInt(26));
+        Character posicion4 = (char) ('A' + rand.nextInt(26));
+        return idVuelo + posicion1 + posicion2 + posicion3 + posicion4;
+    }
 
     /**
      * Función que crea un nuevo billete para un vuelo y pasajero específico pidiendo por teclado los datos necesarios al usuario como el vuelo y el pasajero
@@ -218,5 +239,7 @@ public class Billete {
     // Crea un nuevo billete para un vuelo y pasajero específico, pidiendo por teclado los datos necesarios al usuario en el orden y
     // con los textos indicados en los ejemplos de ejecución del enunciado
     // La función solicita repetidamente los parametros hasta que sean correctos
-    public static Billete altaBillete(Scanner teclado, Random rand, Vuelo vuelo, Pasajero pasajero);
+    public static Billete altaBillete(Scanner teclado, Random rand, Vuelo vuelo, Pasajero pasajero){
+
+    }
 }
