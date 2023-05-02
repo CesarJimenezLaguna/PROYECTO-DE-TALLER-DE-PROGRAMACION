@@ -1,5 +1,9 @@
 package es.upm.tp;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -35,6 +39,7 @@ public class ListaAviones {
      * @param capacidad especifica la capacidad de la lista que contiene los aviones
      */
     public ListaAviones(int capacidad) {
+        this.ocupacion = 0;
         this.capacidad = capacidad;
         ListaAviones = new Avion[capacidad];
     }
@@ -55,7 +60,7 @@ public class ListaAviones {
      */
     public boolean estaLlena() {
         boolean estaLlena = false;
-        if (ocupacion == ListaAviones.length) {
+        if (ocupacion == capacidad) {
             estaLlena = true;
         }
         return estaLlena;
@@ -66,7 +71,7 @@ public class ListaAviones {
      * @return devuelve el avión que se encuentra en esa posición
      */
     public Avion getAvion(int posicion) {
-        return ListaAviones[posicion];
+        return ListaAviones[posicion - 1];
     }
 
     /**
@@ -116,26 +121,104 @@ public class ListaAviones {
         boolean alcanceSuficiente = false;
         Avion avion = null;
         do {
-            System.out.print("Ingrese matrícula de Avión:");
+            System.out.print(mensaje);
             matricula = teclado.nextLine();
             avion = buscarAvion(matricula);
 
-            if (buscarAvion(matricula) == null) {
-                System.out.println("Matrícula de avión no encontrado.");
+            if (avion == null) {
+                System.out.println("Matrícula de avión no encontrada.");
             } else if (avion.getAlcance() < alcance) {
                 System.out.printf(String.format("Avión seleccionado con alcance insuficiente (menor que %.3f km).\n", alcance).replace(',', '.'));
             } else {
                 alcanceSuficiente = true;
             }
-        } while (buscarAvion(matricula) == null || !alcanceSuficiente);
+        } while (!alcanceSuficiente);
+        //} while (avion == null || !alcanceSuficiente);
         return avion;
     }
 
+    /**
+     * Escribe en un fichero los aviones de una lista con sus caracteristicas
+     *
+     * @param nombre es el nombre del fichero donde se van a guardar los datos
+     * @return devuelve true si se ha copiado en el fichero y false si no se ha podido
+     */
     // Genera un fichero CSV con la lista de aviones, sobreescribiendolo
-    public boolean escribirAvionesCsv(String nombre);
+    public boolean escribirAvionesCsv(String nombre) {
+        FileWriter fileWriter = null;
+        boolean ficheroEscrito = true;
 
+        try {
+            fileWriter = new FileWriter(nombre, false);
+
+            for (int i = 0; i < ocupacion - 1; i++) {
+                Avion avion = ListaAviones[i];
+                fileWriter.write(avion.getMarca() + ";" + avion.getModelo() + ";" + avion.getMatricula() + ";" + avion.getFilas() + ";"
+                        + avion.getColumnas() + ";" + avion.getAlcance() + "\n");
+            }
+            Avion avion = ListaAviones[ocupacion - 1];
+            fileWriter.write(avion.getMarca() + ";" + avion.getModelo() + ";" + avion.getMatricula() + ";" + avion.getFilas() + ";" + avion.getColumnas()
+                    + ";" + avion.getAlcance());
+        } catch (FileNotFoundException exception) {
+            System.out.println("Fichero " + nombre + " no encontrado.");
+            ficheroEscrito = false;
+        } catch (IOException ioException) {
+            System.out.println("Error de escritura en fichero " + nombre + ".");
+            ficheroEscrito = false;
+        } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException ioException) {
+                    System.out.println("Error de cierre del fichero " + nombre + ".");
+                    ficheroEscrito = false;
+                }
+            }
+        }
+        return ficheroEscrito;
+    }
+
+    /**
+     * Crea una lista con la funcion escribirAvionesCsv, tomando los datos del fichero CSV
+     *
+     * @param fichero   fichero donde se lee los aviones con sus caracteristicas
+     * @param capacidad es la capacidad de la lista de aviones a la que se hace referencia
+     * @return devuelve la listaImportada
+     */
     //Métodos estáticos
     // Genera una lista de aviones a partir del fichero CSV, usando el argumento como   
     // capacidad máxima de la lista
-    public static ListaAviones leerAvionesCsv(String fichero, int capacidad);
+    public static ListaAviones leerAvionesCsv(String fichero, int capacidad) {
+        ListaAviones listaAvionesCSV = new ListaAviones(capacidad);
+        Scanner scanner = null;
+        String texto;
+
+        try {
+            scanner = new Scanner(new FileReader(fichero));
+            String marca, modelo, matricula;
+            int columnas, filas;
+            double alcance;
+
+            do {
+                texto = scanner.nextLine();
+                String [] matrizAvion = texto.split(";");
+                marca = matrizAvion[0];
+                modelo = matrizAvion[1];
+                matricula = matrizAvion[2];
+                filas = Integer.parseInt(matrizAvion[3]);
+                columnas = Integer.parseInt(matrizAvion[4]);
+                alcance = Double.parseDouble(matrizAvion[5]);
+                listaAvionesCSV.insertarAvion(new Avion(marca, modelo, matricula, columnas, filas, alcance));
+            } while (scanner.hasNext());
+        }
+        catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Fichero " + fichero + " no encontrado.");
+        }
+        finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }
+        return listaAvionesCSV;
+    }
 }
