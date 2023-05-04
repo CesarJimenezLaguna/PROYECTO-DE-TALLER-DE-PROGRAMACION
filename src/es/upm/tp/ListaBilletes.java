@@ -1,5 +1,9 @@
 package es.upm.tp;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -12,11 +16,6 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class ListaBilletes {
-
-    /**
-     * Atributo que contiene la capacidad de la ListaBilletes
-     */
-    private int capacidad;
 
     /**
      * Atributo que contiene la ocupación de un billete dentro de la ListaBilletes
@@ -35,7 +34,6 @@ public class ListaBilletes {
      */
     public ListaBilletes(int capacidad) {
         this.ocupacion = 0;
-        this.capacidad = capacidad;
         ListaBilletes = new Billete[capacidad];
     }
 
@@ -55,7 +53,7 @@ public class ListaBilletes {
      */
     public boolean estaLlena() {
         boolean estaLlena = false;
-        if (capacidad == getOcupacion()) {
+        if (ListaBilletes.length == ocupacion) {
             estaLlena = true;
         }
         return estaLlena;
@@ -68,7 +66,7 @@ public class ListaBilletes {
      * @return Devuelve la posición (i) de un vuelo dentro del array ListaVuelos
      */
     public Billete getBillete(int i) {
-        return ListaBilletes[i];
+        return ListaBilletes[i - 1];
     }
 
     /**
@@ -130,12 +128,13 @@ public class ListaBilletes {
      * @return Devuelve True si se ha podido eliminar y false si no se ha podido
      */
     public boolean eliminarBillete(String localizador) {
-        boolean eliminado = true;
+        boolean eliminado = false;
         for (int i = 0; i < ocupacion; i++) {
             if (ListaBilletes[i].getLocalizador().equals(localizador)) {
                 for (int j = i; j < ocupacion - 1; j++) {
-                    ListaBilletes[i] = ListaBilletes[i + 1];
+                    ListaBilletes[j] = ListaBilletes[j + 1];
                 }
+                eliminado = true;
             }
         }
         ocupacion--;
@@ -164,6 +163,7 @@ public class ListaBilletes {
     // La función solicita repetidamente hasta que se introduzca un localizador correcto
     public Billete seleccionarBillete(Scanner teclado, String mensaje) {
         Billete billeteSeleccionado = null;
+
         do {
             System.out.print(mensaje);
             String localizador = teclado.nextLine();
@@ -176,9 +176,84 @@ public class ListaBilletes {
     }
 
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
-    public boolean aniadirBilletesCsv(String fichero);
+    public boolean aniadirBilletesCsv(String fichero) {
+        FileWriter fileWriter = null;
+        boolean billeteAñadido = true;
+
+        try {
+            fileWriter = new FileWriter(fichero,true);
+            //.
+            for(int i = 0; i < ocupacion; i++){
+                Billete billeteActual = ListaBilletes[i];
+                fileWriter.write(billeteActual.getLocalizador() + ";" + billeteActual.getVuelo().getID() + ";" + billeteActual.getPasajero().getDNI() + ";"
+                        + billeteActual.getTipo().name() + ";" + billeteActual.getFila() + ";" + billeteActual.getColumna() + ";" + billeteActual.getPrecio() + "\n");
+            }
+        }
+        catch (FileNotFoundException fileNotFoundException){
+            System.out.println("Fichero " + fichero + " no encontrado.");
+            billeteAñadido = false;
+        }
+        catch (IOException ioException) {
+            System.out.println("Error de escritura en fichero " + fichero + ".");
+            billeteAñadido = false;
+        }
+
+        //COMPROBAR EL CIEERE
+        finally {
+            if(fileWriter != null){
+                try {
+                    fileWriter.close();
+                }
+                catch (IOException ioException) {
+                    System.out.println("Error de cierre del fichero " + fichero + ".");
+                    billeteAñadido = false;
+                }
+            }
+        }
+        return billeteAñadido;
+    }
 
     // Métodos estáticos
     // Lee los billetes del fichero CSV y los añade a las lista de sus respectivos Vuelos y Pasajeros
-    public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros);
+    public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros) {
+        Scanner scanner = null;
+        String entrada;
+        boolean leerLogrado = true;
+        String localizarBillete, idVuelo, dni, tipo;
+        int filas, columnas;
+        double precio;
+        Pasajero pasajeroActual;
+        Vuelo vueloActual;
+
+        try {
+            scanner = new Scanner(new FileReader(ficheroBilletes));
+
+            do {
+                entrada = scanner.nextLine();
+                String[] arrayCSVBilletes = entrada.split(";");
+                localizarBillete = arrayCSVBilletes[0];
+                idVuelo = arrayCSVBilletes[1];
+                dni = arrayCSVBilletes[2];
+                tipo= arrayCSVBilletes[3];
+                filas = Integer.parseInt(arrayCSVBilletes[4]);
+                columnas = Integer.parseInt(arrayCSVBilletes[5]);
+                precio = Double.parseDouble(arrayCSVBilletes[6]);
+                vueloActual = vuelos.buscarVuelo(idVuelo);
+                pasajeroActual = pasajeros.buscarPasajeroDNI(dni);
+                Billete billete = new Billete(localizarBillete, vueloActual, pasajeroActual, Billete.TIPO.valueOf(tipo), filas, columnas, precio);
+                vueloActual.getListaBilletesDelVuelo().insertarBillete(billete);
+                pasajeroActual.getListaBilletesDePasajero().insertarBillete(billete);
+                vueloActual.ocuparAsiento(billete);
+
+            } while(scanner.hasNext());
+        }
+        catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Fichero " + ficheroBilletes + " no encontrado.");
+        }
+        finally {
+            if (scanner != null){
+                scanner.close();
+            }
+        }
+    }
 }
