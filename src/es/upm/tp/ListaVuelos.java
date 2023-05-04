@@ -12,7 +12,6 @@ import java.util.Scanner;
  */
 public class ListaVuelos {
 
-    private int capacidad;
     private int ocupacion;
     private Vuelo [] ListaVuelos;
 
@@ -23,7 +22,6 @@ public class ListaVuelos {
      */
     public ListaVuelos(int capacidad) {
         this.ocupacion = 0;
-        this.capacidad = capacidad;
         ListaVuelos = new Vuelo[capacidad];
     }
 
@@ -41,7 +39,7 @@ public class ListaVuelos {
 
     //Devuelve el objeto vuelo que está en la posición i del array
     public Vuelo getVuelo(int i) {
-        return ListaVuelos[i];
+        return ListaVuelos[i - 1];
     }
 
     //Devuelve true si puede insertar el vuelo
@@ -90,6 +88,7 @@ public class ListaVuelos {
     public Vuelo seleccionarVuelo(Scanner teclado, String mensaje, String cancelar) {
         Vuelo vueloExistente = null;
         boolean vueloTerminado = false;
+
         do {
             System.out.print(mensaje);
             String pantalla = teclado.nextLine();
@@ -101,16 +100,18 @@ public class ListaVuelos {
                 if (vueloExistente == null){
                     System.out.println("ID de vuelo no encontrado.");
                 }
+                else {
+                    vueloTerminado = true;
+                }
             }
-        }while (!vueloTerminado);
+        } while (!vueloTerminado);
+
         return vueloExistente;
     }
 
     //Ha de escribir la lista de vuelos en la ruta y nombre del fichero pasado como parámetro.
     //Si existe el fichero, se sobreescribe, si no existe se crea.
-    public boolean escribirVuelosCsv(String fichero) {
-
-    }
+    public boolean escribirVuelosCsv(String fichero);
 
     //Métodos estáticos
     //Genera una lista de vuelos a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
