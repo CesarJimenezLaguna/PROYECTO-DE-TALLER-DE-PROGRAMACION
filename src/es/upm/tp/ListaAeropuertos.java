@@ -144,9 +144,11 @@ public class ListaAeropuertos {
             fileWriter = new FileWriter(nombre, false);
 
             for (int i = 0; i < ocupacion; i++) {
+                //Cogemos el aeropuertos de la posición i, luego imprimimos
                 Aeropuerto aeropuerto = listaAeropuertos[i];
                 fileWriter.write(aeropuerto.getNombre() + ";" + aeropuerto.getCodigo() + ";" + aeropuerto.getLatitud() + ";" + aeropuerto.getLongitud() + ";"
                         + aeropuerto.getTerminales());
+
                 if (i != (ocupacion - 1)) {
                     fileWriter.write("\n");
                 }
@@ -186,25 +188,28 @@ public class ListaAeropuertos {
     //Genera una lista de aeropuertos a partir del fichero CSV, usando el argumento como   
     //capacidad máxima de la lista
     public static ListaAeropuertos leerAeropuertosCsv(String fichero, int capacidad) {
-        ListaAeropuertos listaImportada = new ListaAeropuertos(capacidad);
+        ListaAeropuertos listaAeropuertosCSV = new ListaAeropuertos(capacidad);
         Scanner scanner = null;
+        int terminalesAeropuerto;
+        double latitud, longitud;
         String texto;
+        String codigo, nombre;
 
         try{
             scanner = new Scanner(new FileReader(fichero));
-            String codigo, nombre;
-            double latitud, longitud;
-            int terminalesAeropuerto;
+
             do{
                 texto = scanner.nextLine();
                 String [] array = texto.split(";");
+                //Posiciones del array
                 nombre = array[0];
                 codigo = array[1];
                 latitud = Double.parseDouble(array[2]);
                 longitud = Double.parseDouble(array[3]);
                 terminalesAeropuerto = Integer.parseInt(array[4]);
+                //insertar el aeropuerto a la lista
+                listaAeropuertosCSV.insertarAeropuerto(new Aeropuerto(nombre, codigo, latitud, longitud, terminalesAeropuerto));
 
-                listaImportada.insertarAeropuerto(new Aeropuerto(nombre, codigo, latitud, longitud, terminalesAeropuerto));
             }while(scanner.hasNext());
         }
         catch (FileNotFoundException exception) {
@@ -215,6 +220,6 @@ public class ListaAeropuertos {
                 scanner.close();
             }
         }
-        return listaImportada;
+        return listaAeropuertosCSV;
     }
 }

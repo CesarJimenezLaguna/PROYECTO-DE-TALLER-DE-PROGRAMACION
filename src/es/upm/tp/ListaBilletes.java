@@ -131,8 +131,8 @@ public class ListaBilletes {
         boolean eliminado = false;
         for (int i = 0; i < ocupacion; i++) {
             if (ListaBilletes[i].getLocalizador().equals(localizador)) {
-                for (int j = i; j < ocupacion - 1; j++) {
-                    ListaBilletes[j] = ListaBilletes[j + 1];
+                for (int k = i; k < ocupacion - 1; k++) {
+                    ListaBilletes[k] = ListaBilletes[k + 1];
                 }
                 eliminado = true;
             }
@@ -175,6 +175,11 @@ public class ListaBilletes {
         return billeteSeleccionado;
     }
 
+    /**
+     * Función que añade los billetes al final del archivo CSV
+     * @param fichero Fichero en el que se sobreescriben los datos de los billetes
+     * @return Devuelve true si se ha podido escribir la información y false si no se ha podido
+     */
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
     public boolean aniadirBilletesCsv(String fichero) {
         FileWriter fileWriter = null;
@@ -213,6 +218,12 @@ public class ListaBilletes {
         return billeteAñadido;
     }
 
+    /**
+     * Función que lee los billetes del fichero CSV y los añade a la lista de sus respectivos vuelos y pasajeros
+     * @param ficheroBilletes Fichero donde se encuentran los billetes
+     * @param vuelos Vuelo actual
+     * @param pasajeros Pasajeros del vuelo
+     */
     // Métodos estáticos
     // Lee los billetes del fichero CSV y los añade a las lista de sus respectivos Vuelos y Pasajeros
     public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros) {
@@ -241,8 +252,8 @@ public class ListaBilletes {
                 vueloActual = vuelos.buscarVuelo(idVuelo);
                 pasajeroActual = pasajeros.buscarPasajeroDNI(dni);
                 Billete billete = new Billete(localizarBillete, vueloActual, pasajeroActual, Billete.TIPO.valueOf(tipo), filas, columnas, precio);
-                vueloActual.getListaBilletesDelVuelo().insertarBillete(billete);
-                pasajeroActual.getListaBilletesDePasajero().insertarBillete(billete);
+                vueloActual.getListaBilletesVuelo().insertarBillete(billete);
+                pasajeroActual.getListaBilletesPasajero().insertarBillete(billete);
                 vueloActual.ocuparAsiento(billete);
 
             } while(scanner.hasNext());

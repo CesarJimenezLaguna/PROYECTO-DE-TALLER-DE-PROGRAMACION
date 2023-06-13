@@ -225,6 +225,7 @@ public class Billete {
             fileWriter.write("Pasajero " + this.getPasajero().toString() + "\n");
             fileWriter.write("Tipo de billete: " + this.getTipo().name() + "\n"); //el name está bien puesto?
             fileWriter.write("Asiento " + this.getAsiento() + "\n");
+
             String precio = String.format("%.2f", this.getPrecio());
             fileWriter.write("Precio " + precio + "€");
         }
@@ -236,6 +237,7 @@ public class Billete {
             System.out.println("Error de escritura en fichero " + fichero + ".");
             facturaGenerada = false;
         }
+
         finally {
             if (fileWriter != null){
                 try{
@@ -247,6 +249,7 @@ public class Billete {
                 }
             }
         }
+
         if (facturaGenerada){
             System.out.println("Factura de Billete " + localizador + " generada en factura.csv");
         }
@@ -319,6 +322,7 @@ public class Billete {
         }
 
         Billete nuevoBillete = new Billete(generarLocalizador(rand, vuelo.getID()), vuelo, pasajero, TIPO.valueOf(tipo), numeroFila, numeroColumna, precioBilletes);
+
         vuelo.ocuparAsiento(nuevoBillete);
         pasajero.getListaBilletesPasajero().insertarBillete(nuevoBillete);
         vuelo.getListaBilletesVuelo().insertarBillete(nuevoBillete);

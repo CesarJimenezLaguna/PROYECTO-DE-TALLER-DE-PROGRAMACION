@@ -122,7 +122,7 @@ public class Pasajero {
         return email;
     }
 
-    public ListaBilletes getListaBilletesPasajeros(){
+    public ListaBilletes getListaBilletesPasajero(){
         return this.listaBilletesPasajeros;
     }
 
@@ -236,6 +236,44 @@ public class Pasajero {
     // y con los textos indicados en los ejemplos de ejecución del enunciado
     // La función solicita repetidamente los parametros hasta que sean correctos
     public static Pasajero altaPasajero(Scanner teclado, ListaPasajeros pasajeros, int maxBilletes) {
+        Pasajero nuevoPasajero = null;
+        System.out.print("Ingrese nombre:");
+        String nombre = teclado.nextLine();
+        System.out.print("Ingrese apellidos:");
+        String apellidos = teclado.nextLine();
+        long numero;
+        String numeroDNI;
+        char letra;
+        boolean existeDni, existeEmail;
+        String email;
+
+        do {
+            existeDni = false;
+            numero = Utilidades.leerNumero(teclado, "Ingrese número de DNI:", 00000000L, 99999999L);
+            numeroDNI = String.valueOf(String.format("%08d",numero));
+            letra = Utilidades.leerLetra(teclado, "Ingrese letra de DNI:", 'A','Z');
+            if (pasajeros.buscarPasajeroDNI(numeroDNI + letra) != null){
+                existeDni = true;
+                System.out.println("DNI ya existe.");
+            }
+            if (!correctoDNI(numero, letra)){
+                System.out.println("DNI incorrecto.");
+            }
+        } while ((!correctoDNI(numero, letra)) || (existeDni));
+
+        do {
+            existeEmail = false;
+            System.out.print("Ingrese email:");
+            email = teclado.nextLine();
+            if (pasajeros.buscarPasajeroEmail(email) != null){
+                existeEmail = true;
+                System.out.println("Email ya existe.");
+            }
+        }while(!correctoEmail(email) || (existeEmail));
+        nuevoPasajero = new Pasajero(nombre, apellidos, numero, letra, email, maxBilletes);
+        pasajeros.insertarPasajero(nuevoPasajero);
+        return nuevoPasajero;
+
     }
 
     /**

@@ -1,5 +1,6 @@
 package es.upm.tp;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -36,6 +37,7 @@ public class ListaPasajeros {
      * @param capacidad especifica la capacidad de la lista de pasajeros
      */
     public ListaPasajeros(int capacidad) {
+        this.ocupacion = 0;
         this.capacidad = capacidad;
         listaPasajeros = new Pasajero[capacidad];
     }
@@ -56,7 +58,7 @@ public class ListaPasajeros {
      */
     public boolean estaLlena() {
         boolean estaLlena = false;
-        if (capacidad == getOcupacion()) {
+        if (capacidad == ocupacion) {
             estaLlena = true;
         }
         return estaLlena;
@@ -69,7 +71,7 @@ public class ListaPasajeros {
      * @return Devuelve el pasajero que se encuentra en la posición recibida por el parámetro
      */
     public Pasajero getPasajero(int i) {
-        return listaPasajeros[i];
+        return listaPasajeros[i - 1];
     }
 
     /**
@@ -96,14 +98,29 @@ public class ListaPasajeros {
      */
     public Pasajero buscarPasajeroDNI(String dni) {
         Pasajero resultado = null;
-        Boolean encontrado = false;
-        for (int i = 0; i < ocupacion && !encontrado; i++) {
-            if (listaPasajeros[i].getDNI().equalsIgnoreCase(dni)) {
-                resultado = listaPasajeros[i];
+
+        boolean encontrado = false;
+        int k = 0;
+        while (k < ocupacion && !encontrado){
+            if (listaPasajeros[k].getDNI().equalsIgnoreCase(dni)){
+                resultado = listaPasajeros[k];
                 encontrado = true;
             }
+            else
+                k++;
         }
+
+        /*
+        for (int i = 0; i < ocupacion; i++) {
+            if (listaPasajeros[i].getDNI().equalsIgnoreCase(dni)) {
+                resultado = listaPasajeros[i];
+            }
+        }
+
+         */
+
         return resultado;
+
     }
 
     /**
@@ -145,9 +162,21 @@ public class ListaPasajeros {
     }
 
 
+    /**
+     * Genera un fichero CSV con la lista de pasajeros
+     * @param fichero Fichero sobre el que se sobreescriben los datos de los pasajeros
+     * @return Devuelve True si se ha sobreescrito el fichero y false si no se ha podido
+     */
     // Genera un fichero CSV con la lista de pasajeros, sobreescribiendolo
     public boolean escribirPasajerosCsv(String fichero);
 
+    /**
+     * Genera una lista con los pasajeros, tomando los datos del fichero Csv
+     * @param fichero fichero donde lee los datos de los vuelos
+     * @param capacidad capacidad del array ListaPasajeros
+     * @param maxBilletesPasajero cantidad máxima de billetes posibles por pasajeros en un vuelo
+     * @return devuelve la lista que ha creado
+     */
     //Métodos estáticos
     // Genera una lista de pasajeros a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
     // de la lista y el número de billetes máximo por pasajero
