@@ -7,6 +7,7 @@ package es.upm.tp;
  * @author Iñaki Ramos Iturria
  * @version 1.0
  */
+
 public class Aeropuerto {
 
     /**

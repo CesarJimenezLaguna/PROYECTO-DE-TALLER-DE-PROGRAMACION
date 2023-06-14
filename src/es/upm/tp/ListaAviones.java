@@ -16,6 +16,7 @@ import java.util.Scanner;
  * @author Iñaki Ramos Iturria
  * @version 1.0
  */
+
 public class ListaAviones {
 
     /**
