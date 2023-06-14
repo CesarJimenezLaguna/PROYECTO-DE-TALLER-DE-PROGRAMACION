@@ -272,7 +272,11 @@ public class Pasajero {
         }while(!correctoEmail(email) || (existeEmail));
         nuevoPasajero = new Pasajero(nombre, apellidos, numero, letra, email, maxBilletes);
         pasajeros.insertarPasajero(nuevoPasajero);
-        return nuevoPasajero;
+        //
+        //
+        //
+        //
+        // return nuevoPasajero;
 
     }
 

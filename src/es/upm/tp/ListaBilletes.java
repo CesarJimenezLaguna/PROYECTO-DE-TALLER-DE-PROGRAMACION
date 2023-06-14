@@ -252,7 +252,7 @@ public class ListaBilletes {
                 vueloActual = vuelos.buscarVuelo(idVuelo);
                 pasajeroActual = pasajeros.buscarPasajeroDNI(dni);
                 Billete billete = new Billete(localizarBillete, vueloActual, pasajeroActual, Billete.TIPO.valueOf(tipo), filas, columnas, precio);
-                vueloActual.getListaBilletesVuelo().insertarBillete(billete);
+                vueloActual.getlistaBilletesVuelo().insertarBillete(billete);
                 pasajeroActual.getListaBilletesPasajero().insertarBillete(billete);
                 vueloActual.ocuparAsiento(billete);
 

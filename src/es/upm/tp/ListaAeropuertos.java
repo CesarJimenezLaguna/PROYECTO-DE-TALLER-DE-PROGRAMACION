@@ -17,7 +17,6 @@ import java.util.Scanner;
  */
 public class ListaAeropuertos {
 
-
     /**
      * Atributo que devuelve la capacidad de la ListaAeropuerto
      */
