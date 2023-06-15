@@ -180,33 +180,25 @@ public class ListaAeropuertos {
     public static ListaAeropuertos leerAeropuertosCsv(String fichero, int capacidad) {
         ListaAeropuertos listaAeropuertosCSV = new ListaAeropuertos(capacidad);
         Scanner scanner = null;
-        int terminalesAeropuerto;
-        double latitud, longitud;
-        String texto;
-        String codigo, nombre;
+        String arrayAeropuerto[];
 
         try {
             scanner = new Scanner(new FileReader(fichero));
+            do {
+                arrayAeropuerto = scanner.nextLine().split(";");
+                // Posiciones del array en el aeropuerto
+                Aeropuerto aeropuerto = new Aeropuerto(arrayAeropuerto[0], arrayAeropuerto[1], Double.parseDouble(arrayAeropuerto[2]), Double.parseDouble(arrayAeropuerto[3]), Integer.parseInt(arrayAeropuerto[4]));
+                // Insertar el aeropuerto a la lista
+                listaAeropuertosCSV.insertarAeropuerto(aeropuerto);
+            } while (scanner.hasNextLine());
 
-            do{
-                texto = scanner.nextLine();
-                String [] array = texto.split(";");
-                //Posiciones del array
-                nombre = array[0];
-                codigo = array[1];
-                latitud = Double.parseDouble(array[2]);
-                longitud = Double.parseDouble(array[3]);
-                terminalesAeropuerto = Integer.parseInt(array[4]);
-                //insertar el aeropuerto a la lista
-                listaAeropuertosCSV.insertarAeropuerto(new Aeropuerto(nombre, codigo, latitud, longitud, terminalesAeropuerto));
-
-            }while(scanner.hasNext());
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Fichero " + fichero + " no encontrado.");
         }
-        catch (FileNotFoundException exception) {
-            System.out.println("El fichero " + fichero + " no se ha encontrado");
-        }
-        finally{
-            if (scanner != null){
+        catch (IOException IOException) {
+            System.out.println("Error de lectura en fichero " + fichero + ".");
+        } finally {
+            if (scanner != null) {
                 scanner.close();
             }
         }

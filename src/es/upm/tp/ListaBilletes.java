@@ -213,41 +213,33 @@ public class ListaBilletes {
     // Lee los billetes del fichero CSV y los añade a las lista de sus respectivos Vuelos y Pasajeros
     public static void leerBilletesCsv(String ficheroBilletes, ListaVuelos vuelos, ListaPasajeros pasajeros) {
         Scanner scanner = null;
-        String entrada;
+        String arrayBillete[];
+        Billete infoBillete;
+        Vuelo vuelo;
+        Pasajero pasajero;
         boolean leerLogrado = true;
-        String localizarBillete, idVuelo, dni, tipo;
-        int filas, columnas;
-        double precio;
-        Pasajero pasajeroActual;
-        Vuelo vueloActual;
 
         try {
             scanner = new Scanner(new FileReader(ficheroBilletes));
-
             do {
-                entrada = scanner.nextLine();
-                String[] arrayCSVBilletes = entrada.split(";");
-                localizarBillete = arrayCSVBilletes[0];
-                idVuelo = arrayCSVBilletes[1];
-                dni = arrayCSVBilletes[2];
-                tipo= arrayCSVBilletes[3];
-                filas = Integer.parseInt(arrayCSVBilletes[4]);
-                columnas = Integer.parseInt(arrayCSVBilletes[5]);
-                precio = Double.parseDouble(arrayCSVBilletes[6]);
-                vueloActual = vuelos.buscarVuelo(idVuelo);
-                pasajeroActual = pasajeros.buscarPasajeroDNI(dni);
-                Billete billete = new Billete(localizarBillete, vueloActual, pasajeroActual, Billete.TIPO.valueOf(tipo), filas, columnas, precio);
-                vueloActual.getlistaBilletesVuelo().insertarBillete(billete);
-                pasajeroActual.getListaBilletesPasajero().insertarBillete(billete);
-                vueloActual.ocuparAsiento(billete);
+                arrayBillete = scanner.nextLine().split(";");
+                vuelo = vuelos.buscarVuelo(arrayBillete[1]);
+                pasajero = pasajeros.buscarPasajeroDNI(arrayBillete[2]);
 
-            } while(scanner.hasNext());
+                infoBillete = new Billete(arrayBillete[0], vuelo, pasajero,Billete.TIPO.valueOf(arrayBillete[3]), Integer.parseInt(arrayBillete[4]), Integer.parseInt(arrayBillete[5]), Double.parseDouble(arrayBillete[6]));
+
+                vuelo.getListaBilletesVuelo().insertarBillete(infoBillete);
+                pasajero.getListaBilletesPasajero().insertarBillete(infoBillete);
+                vuelo.ocuparAsiento(infoBillete);
+            } while (scanner.hasNext());
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Fichero Billetes no encontrado.");
         }
-        catch (FileNotFoundException fileNotFoundException) {
-            System.out.println("Fichero " + ficheroBilletes + " no encontrado.");
-        }
-        finally {
-            if (scanner != null){
+        catch (IOException IOException) {
+            System.out.println("Error de lectura en fichero Billetes.");
+        } finally {
+            if (scanner != null) {
                 scanner.close();
             }
         }

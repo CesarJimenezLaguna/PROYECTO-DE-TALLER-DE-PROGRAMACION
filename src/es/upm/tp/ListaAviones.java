@@ -181,30 +181,23 @@ public class ListaAviones {
     public static ListaAviones leerAvionesCsv(String fichero, int capacidad) {
         ListaAviones listaAvionesCSV = new ListaAviones(capacidad);
         Scanner scanner = null;
-        String texto;
+        Avion avion;
+        String arrayAvion[];
 
         try {
             scanner = new Scanner(new FileReader(fichero));
-            String marca, modelo, matricula;
-            int columnas, filas;
-            double alcance;
-
             do {
-                texto = scanner.nextLine();
-                String [] matrizAvion = texto.split(";");
-                marca = matrizAvion[0];
-                modelo = matrizAvion[1];
-                matricula = matrizAvion[2];
-                filas = Integer.parseInt(matrizAvion[3]);
-                columnas = Integer.parseInt(matrizAvion[4]);
-                alcance = Double.parseDouble(matrizAvion[5]);
-                listaAvionesCSV.insertarAvion(new Avion(marca, modelo, matricula, columnas, filas, alcance));
+                arrayAvion = scanner.nextLine().split(";");
+                avion = new Avion(arrayAvion[0], arrayAvion[1], arrayAvion[2], Integer.parseInt(arrayAvion[3]), Integer.parseInt(arrayAvion[4]), Double.parseDouble(arrayAvion[5]));
+                listaAvionesCSV.insertarAvion(avion);
             } while (scanner.hasNext());
         }
         catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Fichero " + fichero + " no encontrado.");
         }
-        finally {
+        catch (IOException IOException) {
+            System.out.println("Error de lectura en fichero " + fichero + ".");
+        } finally {
             if (scanner != null) {
                 scanner.close();
             }
