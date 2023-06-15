@@ -1,9 +1,6 @@
 package es.upm.tp;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -146,34 +143,26 @@ public class ListaAviones {
      */
     // Genera un fichero CSV con la lista de aviones, sobreescribiendolo
     public boolean escribirAvionesCsv(String nombre) {
-        FileWriter fileWriter = null;
+        PrintWriter printWriterF = null;
+        Avion avion;
         boolean ficheroEscrito = true;
 
         try {
-            fileWriter = new FileWriter(nombre, false);
-
-            for (int i = 0; i < ocupacion - 1; i++) {
-                Avion avion = ListaAviones[i];
-                fileWriter.write(avion.getMarca() + ";" + avion.getModelo() + ";" + avion.getMatricula() + ";" + avion.getFilas() + ";"
-                        + avion.getColumnas() + ";" + avion.getAlcance() + "\n");
+            printWriterF = new PrintWriter(nombre);
+            for (int i = 0; i < ocupacion; i++){
+                avion = ListaAviones[i];
+                printWriterF.println(avion.getMarca() + ";" + avion.getModelo() + ";" + avion.getMatricula() + ";" + avion.getFilas() + ";" + avion.getColumnas() + ";" + avion.getAlcance());
+                if (i != ocupacion - 1) printWriterF.println();
             }
-            Avion avion = ListaAviones[ocupacion - 1];
-            fileWriter.write(avion.getMarca() + ";" + avion.getModelo() + ";" + avion.getMatricula() + ";" + avion.getFilas() + ";" + avion.getColumnas()
-                    + ";" + avion.getAlcance());
-        } catch (FileNotFoundException exception) {
+        } catch (FileNotFoundException fileNotFoundException){
             System.out.println("Fichero " + nombre + " no encontrado.");
             ficheroEscrito = false;
         } catch (IOException ioException) {
             System.out.println("Error de escritura en fichero " + nombre + ".");
             ficheroEscrito = false;
         } finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException ioException) {
-                    System.out.println("Error de cierre del fichero " + nombre + ".");
-                    ficheroEscrito = false;
-                }
+            if (printWriterF != null) {
+                printWriterF.close();
             }
         }
         return ficheroEscrito;

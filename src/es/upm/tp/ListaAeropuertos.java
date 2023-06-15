@@ -1,9 +1,6 @@
 package es.upm.tp;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -132,46 +129,39 @@ public class ListaAeropuertos {
 
     /**
      * Escribe en un fichero los aerpuertos con todas sus características (nombre, latitud, longitud...).
+     *
      * @param nombre nombre del fichero en el que se guardan los datos.
      * @return devuelve true si se ha escrito en el fichero.
      */
     // Genera un fichero CSV con la lista de aeropuertos, sobreescribiendolo
     public boolean escribirAeropuertosCsv(String nombre) {
-        FileWriter fileWriter = null;
+        PrintWriter printWriterF = null;
+        Aeropuerto aeropuerto;
+        String infoAeropuerto;
         boolean ficheroEscrito = true;
 
         try {
-            fileWriter = new FileWriter(nombre, false);
-
+            printWriterF = new PrintWriter(nombre);
             for (int i = 0; i < ocupacion; i++) {
                 //Cogemos el aeropuertos de la posición i, luego imprimimos
-                Aeropuerto aeropuerto = listaAeropuertos[i];
-                fileWriter.write(aeropuerto.getNombre() + ";" + aeropuerto.getCodigo() + ";" + aeropuerto.getLatitud() + ";" + aeropuerto.getLongitud() + ";"
-                        + aeropuerto.getTerminales());
-
-                if (i != (ocupacion - 1)) {
-                    fileWriter.write("\n");
-                }
+                aeropuerto = listaAeropuertos[i];
+                //info del aeropuerto para escribir
+                infoAeropuerto = aeropuerto.getNombre() + ";" + aeropuerto.getCodigo() + ";" + aeropuerto.getLatitud() + ";" + aeropuerto.getLongitud() + ";" + aeropuerto.getTerminales();
+                printWriterF.write(infoAeropuerto);
+                //Escribimos el salto de línea
+                if (i != ocupacion - 1) printWriterF.println();
             }
-        }
-        catch (FileNotFoundException exception) {
+
+        } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Fichero " + nombre + " no encontrado.");
             ficheroEscrito = false;
-        }
-        catch (IOException exception1) {
+        } catch (IOException ioException) {
             System.out.println("Error de escritura en fichero " + nombre + ".");
             ficheroEscrito = false;
         }
-
         finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                }
-                catch (IOException ioException) {
-                    System.out.println("Error de cierre del fichero " + nombre + ".");
-                    ficheroEscrito = false;
-                }
+            if (printWriterF != null) {
+                printWriterF.close();
             }
         }
         return ficheroEscrito;
@@ -185,7 +175,7 @@ public class ListaAeropuertos {
      * @return genera una lista de los aeropuertos con los datos del fichero CSV
      */
     //Métodos estáticos
-    //Genera una lista de aeropuertos a partir del fichero CSV, usando el argumento como   
+    //Genera una lista de aeropuertos a partir del fichero CSV, usando el argumento como
     //capacidad máxima de la lista
     public static ListaAeropuertos leerAeropuertosCsv(String fichero, int capacidad) {
         ListaAeropuertos listaAeropuertosCSV = new ListaAeropuertos(capacidad);
@@ -195,7 +185,7 @@ public class ListaAeropuertos {
         String texto;
         String codigo, nombre;
 
-        try{
+        try {
             scanner = new Scanner(new FileReader(fichero));
 
             do{

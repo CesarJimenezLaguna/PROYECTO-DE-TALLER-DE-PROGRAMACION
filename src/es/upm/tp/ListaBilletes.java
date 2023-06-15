@@ -1,9 +1,6 @@
 package es.upm.tp;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -182,37 +179,25 @@ public class ListaBilletes {
      */
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
     public boolean aniadirBilletesCsv(String fichero) {
-        FileWriter fileWriter = null;
+        PrintWriter printWriterF = null;
         boolean billeteAñadido = true;
 
         try {
-            fileWriter = new FileWriter(fichero,true);
-            //.
+            printWriterF = new PrintWriter(fichero);
             for(int i = 0; i < ocupacion; i++){
-                Billete billeteActual = ListaBilletes[i];
-                fileWriter.write(billeteActual.getLocalizador() + ";" + billeteActual.getVuelo().getID() + ";" + billeteActual.getPasajero().getDNI() + ";"
-                        + billeteActual.getTipo().name() + ";" + billeteActual.getFila() + ";" + billeteActual.getColumna() + ";" + billeteActual.getPrecio() + "\n");
+                Billete infoBillete = ListaBilletes[i];
+                printWriterF.write(infoBillete.getLocalizador() + ";" + infoBillete.getVuelo().getID() + ";" + infoBillete.getPasajero().getDNI() + ";" + infoBillete.getTipo().name() + ";" + infoBillete.getFila() + ";" + infoBillete.getColumna() + ";" + infoBillete.getPrecio());
+                if (i != ocupacion - 1) printWriterF.println();
             }
-        }
-        catch (FileNotFoundException fileNotFoundException){
+        } catch (FileNotFoundException fileNotFoundException){
             System.out.println("Fichero " + fichero + " no encontrado.");
             billeteAñadido = false;
-        }
-        catch (IOException ioException) {
+        } catch (IOException ioException) {
             System.out.println("Error de escritura en fichero " + fichero + ".");
             billeteAñadido = false;
-        }
-
-        //COMPROBAR EL CIEERE
-        finally {
-            if(fileWriter != null){
-                try {
-                    fileWriter.close();
-                }
-                catch (IOException ioException) {
-                    System.out.println("Error de cierre del fichero " + fichero + ".");
-                    billeteAñadido = false;
-                }
+        } finally {
+            if(printWriterF != null){
+                printWriterF.close();
             }
         }
         return billeteAñadido;
