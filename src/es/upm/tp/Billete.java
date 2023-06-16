@@ -1,8 +1,6 @@
 package es.upm.tp;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -189,10 +187,10 @@ public class Billete {
     // Cancela este billete, eliminandolo de la lista de billetes del vuelo y del pasajero correspondiente
     public boolean cancelar(){
         boolean cancelar = true;
-        if (!getVuelo().desocuparAsiento(localizador)){
+        if (!vuelo.desocuparAsiento(localizador)){
             cancelar = false;
         }
-        if (!getPasajero().cancelarBillete(localizador)){
+        if (!pasajero.cancelarBillete(localizador) || !vuelo.getListaBilletesVuelo().eliminarBillete(localizador)){
             cancelar = false;
         }
         if (cancelar){
@@ -209,47 +207,41 @@ public class Billete {
      */
     // Imprime la informacion de este billete en un fichero siguiendo el formato de los ejemplos de ejecución del enunciado
     public boolean generarFactura(String fichero) {
-        FileWriter fileWriter = null;
+        PrintWriter printWriterF = null;
         boolean facturaGenerada = true;
 
         try {
-            fileWriter = new FileWriter(fichero, false);
-            fileWriter.write("--------------------------------------------------\n");
-            fileWriter.write("--------- Factura del billete " + this.localizador + " ---------\n");
-            fileWriter.write("--------------------------------------------------\n");
-            fileWriter.write("Vuelo " + this.getVuelo().getID() + "\n");
-            fileWriter.write("Origen " + this.getVuelo().getOrigen().toStringSimple() + " T" + this.getVuelo().getTerminalOrigen() + "\n");
-            fileWriter.write("Destino " + this.getVuelo().getDestino().toStringSimple() + " T" + this.getVuelo().getTerminalDestino() + "\n");
-            fileWriter.write("Salida " + this.getVuelo().getSalida().toString() + "\n");
-            fileWriter.write("Llegada " + this.getVuelo().getLlegada().toString() + "\n");
-            fileWriter.write("Pasajero " + this.getPasajero().toString() + "\n");
-            fileWriter.write("Tipo de billete: " + this.getTipo().name() + "\n"); //el name está bien puesto?
-            fileWriter.write("Asiento " + this.getAsiento() + "\n");
+            printWriterF = new PrintWriter(fichero);
+            printWriterF.write("--------------------------------------------------\n");
+            printWriterF.write("--------- Factura del billete " + localizador + " ---------\n");
+            printWriterF.write("--------------------------------------------------\n");
+            printWriterF.write("Vuelo " + vuelo.getID() + "\n");
+            printWriterF.write("Origen " + vuelo.getOrigen().toStringSimple() + " T" + vuelo.getTerminalOrigen() + "\n");
+            printWriterF.write("Destino " + vuelo.getDestino().toStringSimple() + " T" + vuelo.getTerminalDestino() + "\n");
+            printWriterF.write("Salida " + vuelo.getSalida().toString() + "\n");
+            printWriterF.write("Llegada " + vuelo.getLlegada().toString() + "\n");
+            printWriterF.write("Pasajero " + pasajero.toString() + "\n");
+            printWriterF.write("Tipo de billete: " + tipo.name() + "\n"); //el name está bien puesto?
+            printWriterF.write("Asiento " + this.getAsiento() + "\n");
 
-            String precio = String.format("%.2f", this.getPrecio());
-            fileWriter.write("Precio " + precio + "€");
+            String precio = String.format("%.2f", getPrecio());
+            printWriterF.write("Precio " + precio + "€");
         }
         catch (FileNotFoundException fileNotFoundException){
-            System.out.println("El fichero " + fichero + " no encontrado");
+            System.out.println("Fichero " + fichero + " no encontrado.");
             facturaGenerada = false;
         }
         catch (IOException ioException){
             System.out.println("Error de escritura en fichero " + fichero + ".");
             facturaGenerada = false;
         }
-
         finally {
-            if (fileWriter != null){
-                try{
-                    fileWriter.close();
-                }
-                catch (IOException ioException2){
-                    System.out.println("Error de cierre del fichero " + fichero + ".");
-                    facturaGenerada = false;
-                }
+            if (printWriterF != null){
+                printWriterF.close();
             }
         }
 
+        //Si la factura se genera correctamente
         if (facturaGenerada){
             System.out.println("Factura de Billete " + localizador + " generada en factura.csv");
         }
@@ -289,28 +281,47 @@ public class Billete {
     // con los textos indicados en los ejemplos de ejecución del enunciado
     // La función solicita repetidamente los parametros hasta que sean correctos
     public static Billete altaBillete(Scanner teclado, Random rand, Vuelo vuelo, Pasajero pasajero){
-        vuelo.imprimirMatrizAsientos();
-        System.out.println("Tipo de asiento: '[ ]' = TURISTA, '{ }' = PREFERENTE, '( )' = PRIMERA");
         String asiento;
         char columna;
-        int numeroFila;
+        int numeroFila, numeroColumna;
         double precioBilletes;
-        int numeroColumna;
+
+        vuelo.imprimirMatrizAsientos();
+        System.out.println("Tipo de asiento: '[ ]' = TURISTA, '{ }' = PREFERENTE, '( )' = PRIMERA");
 
         do {
             numeroFila = Utilidades.leerNumero(teclado, "Ingrese fila del asiento (1-" + vuelo.getAvion().getFilas() + "):", 1, vuelo.getAvion().getFilas());
             columna = (char) (vuelo.getAvion().getColumnas() + 'A' - 1);
+            //columna = (char) (vuelo.getAvion().getColumnas() + 64);
+
             char letraColumna = Utilidades.leerLetra(teclado, "Ingrese columna del asiento (A-" + columna + "):", 'A', columna);
             asiento = String.valueOf(numeroFila) + String.valueOf(letraColumna);
             numeroColumna = letraColumna - 'A' + 1;
+            //numeroColumna = letraColumna - 64;
 
             if (vuelo.asientoOcupado(numeroFila, numeroColumna))
                 System.out.println("El asiento " + asiento + " ya está reservado.");
 
         } while(vuelo.asientoOcupado(numeroFila, numeroColumna));
 
-        String tipo;
+        //Diferenciamos entre las filas
+        TIPO tipo;
+        switch (numeroFila){
+            case 1:
+                tipo = TIPO.PRIMERA;
+                precioBilletes = vuelo.getPrecioPrimera();
+                break;
+            case 2,3,4,5:
+                tipo = TIPO.PREFERENTE;
+                precioBilletes = vuelo.getPrecioPreferente();
+                break;
+            default:
+                tipo = TIPO.TURISTA;
+                precioBilletes = vuelo.getPrecio();
+        }
 
+        /*
+        String tipo;
         switch(numeroFila){
             case 1:
                 tipo = "PRIMERA"; precioBilletes = vuelo.getPrecioPrimera();
@@ -321,9 +332,15 @@ public class Billete {
             default: tipo = "TURISTA";precioBilletes= vuelo.getPrecio();
         }
 
-        Billete nuevoBillete = new Billete(generarLocalizador(rand, vuelo.getID()), vuelo, pasajero, TIPO.valueOf(tipo), numeroFila, numeroColumna, precioBilletes);
+         */
 
+        Billete nuevoBillete = new Billete(generarLocalizador(rand, vuelo.getID()), vuelo, pasajero, tipo, numeroFila, numeroColumna, precioBilletes);
+        //Billete nuevoBillete = new Billete(generarLocalizador(rand, vuelo.getID()), vuelo, pasajero, TIPO.valueOf(tipo), numeroFila, numeroColumna, precioBilletes);
+
+        //Ocupamos el asiento
         vuelo.ocuparAsiento(nuevoBillete);
+
+        //Insertamos el billete en las listas
         pasajero.getListaBilletesPasajero().insertarBillete(nuevoBillete);
         vuelo.getListaBilletesVuelo().insertarBillete(nuevoBillete);
 
