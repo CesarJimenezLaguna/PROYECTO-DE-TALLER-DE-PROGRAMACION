@@ -414,6 +414,7 @@ public class Vuelo {
                         printWriterF.write(billete.getTipo().name() + "\t");
                         printWriterF.write(billete.getPasajero().toString());
                     }
+                    if ((i + 1) != listaBilletesVuelo.getOcupacion() - 1) printWriterF.write("\n");
                 }
             }
         } catch (FileNotFoundException fileNotFoundException) {
@@ -444,7 +445,6 @@ public class Vuelo {
     public static String generarID(Random rand) {
         return String.format("PM%04d", rand.nextInt(9999));
     }
-
 
     /**
      * Da de alta a un vuelo con un avión que va de un aeropuerto a otro

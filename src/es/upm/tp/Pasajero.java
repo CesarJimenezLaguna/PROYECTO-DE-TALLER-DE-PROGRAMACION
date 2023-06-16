@@ -279,12 +279,7 @@ public class Pasajero {
         nuevoPasajero = new Pasajero(nombre, apellidos, numero, letra, email, maxBilletes);
         //if (nuevoPasajero != null) pasajeros.insertarPasajero(nuevoPasajero);
         pasajeros.insertarPasajero(nuevoPasajero);
-        //
-        //
-        //
-        //
-        // return nuevoPasajero;
-
+        return nuevoPasajero;
     }
 
     /**
