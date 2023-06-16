@@ -217,7 +217,6 @@ public class ListaBilletes {
         Billete infoBillete;
         Vuelo vuelo;
         Pasajero pasajero;
-        boolean leerLogrado = true;
 
         try {
             scanner = new Scanner(new FileReader(ficheroBilletes));

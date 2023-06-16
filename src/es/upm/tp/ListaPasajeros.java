@@ -1,6 +1,10 @@
 package es.upm.tp;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -168,7 +172,30 @@ public class ListaPasajeros {
      * @return Devuelve True si se ha sobreescrito el fichero y false si no se ha podido
      */
     // Genera un fichero CSV con la lista de pasajeros, sobreescribiendolo
-    public boolean escribirPasajerosCsv(String fichero);
+    public boolean escribirPasajerosCsv(String fichero){
+        PrintWriter printWriterF = null;
+        boolean ficheroEscrito = true;
+
+        try {
+            printWriterF = new PrintWriter(fichero);
+            for(int i = 0; i < ocupacion; i++){
+                Pasajero pasajero1 = listaPasajeros[i];
+                printWriterF.write(pasajero1.getNombre() + ";" + pasajero1.getApellidos() + ";" + pasajero1.getNumeroDNI() + ";" + pasajero1.getLetraDNI() + ";" + pasajero1.getEmail());
+                if (i != ocupacion - 1) printWriterF.println();
+            }
+        } catch (FileNotFoundException fileNotFoundException){
+            System.out.println("Fichero " + fichero + " no encontrado.");
+            ficheroEscrito = false;
+        } catch (IOException ioException) {
+            System.out.println("Error de escritura en fichero " + fichero + ".");
+            ficheroEscrito = false;
+        } finally {
+            if(printWriterF != null){
+                printWriterF.close();
+            }
+        }
+        return ficheroEscrito;
+    }
 
     /**
      * Genera una lista con los pasajeros, tomando los datos del fichero Csv
@@ -180,5 +207,30 @@ public class ListaPasajeros {
     //Métodos estáticos
     // Genera una lista de pasajeros a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
     // de la lista y el número de billetes máximo por pasajero
-    public static ListaPasajeros leerPasajerosCsv(String fichero, int capacidad, int maxBilletesPasajero);
+    public static ListaPasajeros leerPasajerosCsv(String fichero, int capacidad, int maxBilletesPasajero){
+        ListaPasajeros listaDePasajeros = new ListaPasajeros(capacidad);
+        Scanner scanner = null;
+        String arrayPasajeros[] ;
+        Pasajero pasajero;
+
+        try{
+            scanner = new Scanner(new FileReader(fichero));
+            do {
+                arrayPasajeros = scanner.nextLine().split(";");
+                pasajero = new Pasajero(arrayPasajeros[0], arrayPasajeros[1], Long.parseLong(arrayPasajeros[2]), arrayPasajeros[3].charAt(0), arrayPasajeros[4], maxBilletesPasajero);
+                listaDePasajeros.insertarPasajero(pasajero);
+            } while (scanner.hasNext());
+
+        }catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Fichero Billetes no encontrado.");
+        }
+        catch (IOException IOException) {
+            System.out.println("Error de lectura en fichero Billetes.");
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }
+        return listaDePasajeros;
+    }
 }

@@ -122,6 +122,7 @@ public class ListaVuelos {
                 vuelosBuscados.insertarVuelo(ListaVuelos[i]);
             }
         }
+        return vuelosBuscados;
     }
 
     /**
@@ -211,5 +212,31 @@ public class ListaVuelos {
     //Métodos estáticos
     //Genera una lista de vuelos a partir del fichero CSV, usando los límites especificados como argumentos para la capacidad
     //de la lista
-    public static ListaVuelos leerVuelosCsv(String fichero, int capacidad, ListaAeropuertos aeropuertos, ListaAviones aviones);
+    public static ListaVuelos leerVuelosCsv(String fichero, int capacidad, ListaAeropuertos aeropuertos, ListaAviones aviones) {
+        ListaVuelos listaDeVuelos = new ListaVuelos(capacidad);
+        Scanner scanner = null;
+        Vuelo vuelo;
+        String arrayVuelos[];
+
+        try {
+            scanner = new Scanner(new FileReader(fichero));
+            do {
+                arrayVuelos = scanner.nextLine().split(";");
+                vuelo = new Vuelo(arrayVuelos[0], aviones.buscarAvion(arrayVuelos[1]), aeropuertos.buscarAeropuerto(arrayVuelos[2]), Integer.parseInt(arrayVuelos[3]),
+                        Fecha.fromString(arrayVuelos[4]), aeropuertos.buscarAeropuerto(arrayVuelos[5]), Integer.parseInt(arrayVuelos[6]), Fecha.fromString(arrayVuelos[7]),
+                        Double.parseDouble(arrayVuelos[8]));
+                listaDeVuelos.insertarVuelo(vuelo);
+            } while (scanner.hasNext());
+
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Fichero Billetes no encontrado.");
+        } catch (IOException IOException) {
+            System.out.println("Error de lectura en fichero Billetes.");
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }
+        return listaDeVuelos;
+    }
 }
