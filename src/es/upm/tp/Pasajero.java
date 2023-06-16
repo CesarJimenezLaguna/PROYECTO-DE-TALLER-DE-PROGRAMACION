@@ -244,33 +244,40 @@ public class Pasajero {
         long numero;
         String numeroDNI;
         char letra;
-        boolean existeDni, existeEmail;
+        boolean dniIncorrecto, emailIncorrecto;
         String email;
 
         do {
-            existeDni = false;
+            dniIncorrecto = false;
             numero = Utilidades.leerNumero(teclado, "Ingrese número de DNI:", 00000000L, 99999999L);
             numeroDNI = String.valueOf(String.format("%08d",numero));
             letra = Utilidades.leerLetra(teclado, "Ingrese letra de DNI:", 'A','Z');
-            if (pasajeros.buscarPasajeroDNI(numeroDNI + letra) != null){
-                existeDni = true;
-                System.out.println("DNI ya existe.");
-            }
             if (!correctoDNI(numero, letra)){
+                dniIncorrecto = true;
                 System.out.println("DNI incorrecto.");
             }
-        } while ((!correctoDNI(numero, letra)) || (existeDni));
+            if (pasajeros.buscarPasajeroDNI(numeroDNI + letra) != null){
+                dniIncorrecto = true;
+                System.out.println("DNI ya existe.");
+            }
+        } while (dniIncorrecto);
 
         do {
-            existeEmail = false;
+            emailIncorrecto = false;
             System.out.print("Ingrese email:");
             email = teclado.nextLine();
             if (pasajeros.buscarPasajeroEmail(email) != null){
-                existeEmail = true;
+                emailIncorrecto = true;
                 System.out.println("Email ya existe.");
             }
-        }while(!correctoEmail(email) || (existeEmail));
+            if (!correctoEmail(email)){
+                emailIncorrecto = true;
+                System.out.println("DNI ya existe.");
+            }
+        }while(emailIncorrecto);
+
         nuevoPasajero = new Pasajero(nombre, apellidos, numero, letra, email, maxBilletes);
+        //if (nuevoPasajero != null) pasajeros.insertarPasajero(nuevoPasajero);
         pasajeros.insertarPasajero(nuevoPasajero);
         //
         //

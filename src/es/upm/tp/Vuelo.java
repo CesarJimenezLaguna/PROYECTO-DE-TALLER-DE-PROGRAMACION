@@ -3,6 +3,7 @@ package es.upm.tp;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ import java.util.Scanner;
  *
  * @author César Jiménez Laguna
  * @author Iñaki Ramos Iturria
- * @version     1.0
+ * @version 1.0
  */
 public class Vuelo {
 
@@ -74,6 +75,7 @@ public class Vuelo {
     /**
      * Constructor de la clase Vuelo
      * Inicializa los atributos y la matriz de los asientos del vuelo
+     *
      * @param id
      * @param avion
      * @param origen
@@ -96,8 +98,8 @@ public class Vuelo {
         this.precio = precio;
         this.asientos = new boolean[avion.getFilas()][avion.getColumnas()];
 
-        for(int i = 0; i < avion.getFilas(); i++){
-            for(int k = 0; k < avion.getColumnas(); k++){
+        for (int i = 0; i < avion.getFilas(); i++) {
+            for (int k = 0; k < avion.getColumnas(); k++) {
                 asientos[i][k] = false;
             }
         }
@@ -105,7 +107,7 @@ public class Vuelo {
 
     }
 
-    public ListaBilletes getListaBilletesVuelo(){
+    public ListaBilletes getListaBilletesVuelo() {
         return listaBilletesVuelo;
     }
 
@@ -191,8 +193,8 @@ public class Vuelo {
      */
     public int numAsientosLibres() {
         int asientosLibres = 0;
-        for(int i = 0; i < avion.getFilas(); i++){
-            for (int k = 0; k < avion.getColumnas(); k++){
+        for (int i = 0; i < avion.getFilas(); i++) {
+            for (int k = 0; k < avion.getColumnas(); k++) {
                 if (asientos[i][k] == false)
                     asientosLibres++;
             }
@@ -205,7 +207,7 @@ public class Vuelo {
      */
     public boolean vueloLleno() {
         boolean vueloLleno = false;
-        if(numAsientosLibres() == 0) {
+        if (numAsientosLibres() == 0) {
             vueloLleno = true;
         }
         return vueloLleno;
@@ -213,16 +215,18 @@ public class Vuelo {
 
     /**
      * Verifica si un asiento del vuelo (por filas y columnas) está ocupado
-     * @param fila fila del asiento
+     *
+     * @param fila    fila del asiento
      * @param columna columna del asiento
      * @return devuelve true si el asiento está ocupado y false si este mismo no lo esta
      */
     public boolean asientoOcupado(int fila, int columna) {
-        return asientos[fila -1][columna - 1]; //quitamos 1 porque la matriz empieza en el 0
+        return asientos[fila - 1][columna - 1]; //quitamos 1 porque la matriz empieza en el 0
     }
 
     /**
      * Busca un billete, entre los de la lista de billetes del vuelo mediante un localizador introducido por parámetro
+     *
      * @param localizador localizador del billete a buscar
      * @return devuelve el billete que coincida con el introducido por parámetro, si no existe el billete devuelve null
      */
@@ -233,7 +237,8 @@ public class Vuelo {
 
     /**
      * Devuelve el objeto billete que corresponde con una fila o columna, si esta libre o se excede en el límite de fila y columna devuelve null
-     * @param fila fila del billete
+     *
+     * @param fila    fila del billete
      * @param columna columna del billete
      * @return devuelve el billete en la posición (fila y columna), si no existe un billete devuelve null
      */
@@ -246,6 +251,7 @@ public class Vuelo {
 
     /**
      * Ocupa un asiento a partir de un billete introducido por parámetro
+     *
      * @param billete billete del vuelo (indica asiento a ocupar)
      * @return devuelve true si el asiento no estaba ocupado antes de invocar a la función
      */
@@ -262,11 +268,12 @@ public class Vuelo {
 
     /**
      * Desocupa un asiento a partir de un billete introducido por parámetro
+     *
      * @param localizador localizador del billete (indica asiento a desocupar)
      * @return devuelve true si se ha desocupado el asiento correctamente y false si no se ha desocupado
      */
     //A traves del loalizador de billete, se desocupará el asiento
-    public boolean desocuparAsiento(String localizador){
+    public boolean desocuparAsiento(String localizador) {
         boolean desocupado = false;
         Billete billete = listaBilletesVuelo.buscarBillete(localizador);
         if (asientoOcupado(billete.getFila(), billete.getColumna())) {
@@ -278,11 +285,12 @@ public class Vuelo {
 
     /**
      * Añade los billetes al final de un fichero CSV
+     *
      * @param fichero fichero en el que se añaden los billetes
      * @return devuelve true si se han añadido correctamente los billetes, false si no se han añadido
      */
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
-    public boolean aniadirBilletesCsv(String fichero){
+    public boolean aniadirBilletesCsv(String fichero) {
         return listaBilletesVuelo.aniadirBilletesCsv(fichero);
     }
 
@@ -292,10 +300,10 @@ public class Vuelo {
      */
     // Devuelve una cadena con información completa del vuelo
     //Ejemplo: Vuelo PM0066 de Josep Tarradellas Barcelona-El Prat(BCN) T2 (01/01/2023 08:15:00) a Gran Canaria(LPA) T1 (01/01/2023 11:00:05) en Boeing 747(EC-LKD) por 182,52€, asientos libres: 409
-    public String toString(){
+    public String toString() {
         return "Vuelo " + id + " de " + origen.getNombre() + "(" + origen.getCodigo() + ") T" + terminalOrigen + " (" + salida
                 + ") a " + destino.getNombre() + "(" + destino.getCodigo() + ") T" + terminalDestino + " (" + llegada + ") en "
-                + avion.getMarca() + " " + avion.getModelo() + "(" + avion.getMatricula() + ") por " + String.format("%.2f",precio).replace(".", ",")
+                + avion.getMarca() + " " + avion.getModelo() + "(" + avion.getMatricula() + ") por " + String.format("%.2f", precio).replace(".", ",")
                 + "€, asientos libres: " + numAsientosLibres();
     }
 
@@ -304,22 +312,23 @@ public class Vuelo {
      */
     // Devuelve una cadena con información abreviada del vuelo
     //Ejemplo: Vuelo PM0066 de BCN T2 (01/01/2023 08:15:00) a LPA T1 (01/01/2023 11:00:05)
-    public String toStringSimple(){
+    public String toStringSimple() {
         return "Vuelo " + id + " de " + origen.getCodigo() + " T" + terminalOrigen + " (" + salida + ") a " + destino.getCodigo()
                 + " T" + terminalDestino + " (" + llegada + ")";
     }
 
     /**
      * Devuelve true si el código origen, destino y la fecha coinciden con la del vuelo
-     * @param codigoOrigen codigo del aeropuerto de origen (comprobar)
+     *
+     * @param codigoOrigen  codigo del aeropuerto de origen (comprobar)
      * @param codigoDestino codigo del aeropuerto de destino (comprobar)
-     * @param fecha fecha a comprobar
+     * @param fecha         fecha a comprobar
      * @return Devuelve true si el código origen, destino y fecha
      */
     //Devuelve true si el código origen, destino y fecha son los mismos que el vuelo
-    public boolean coincide(String codigoOrigen, String codigoDestino, Fecha fecha){
+    public boolean coincide(String codigoOrigen, String codigoDestino, Fecha fecha) {
         boolean correcto = false;
-        if (origen.getCodigo().equals(codigoOrigen) && destino.getCodigo().equals(codigoDestino) && salida.coincide(fecha)){
+        if (origen.getCodigo().equals(codigoOrigen) && destino.getCodigo().equals(codigoDestino) && salida.coincide(fecha)) {
             correcto = true;
         }
         return correcto;
@@ -327,19 +336,19 @@ public class Vuelo {
 
     /**
      * // Muestra la matriz  de asientos del vuelo, ejemplo:
-     *     //   A  B  C  D  E  F
-     *     // 1( )(X)( )( )( )( )
-     *     // 2{X}{X}{ }{ }{ }{ }
-     *     // 3{ }{ }{ }{X}{X}{X}
-     *     // 4{ }{ }{ }{ }{ }{ }
-     *     // 5{ }{ }{X}{ }{ }{ }
-     *     // 6[ ][ ][ ][ ][ ][ ]
-     *     // 7[X][X][X][ ][ ][ ]
-     *     // 8[ ][ ][ ][ ][ ][ ]
-     *     // 9[ ][X][ ][ ][ ][X]
-     *     //10[ ][ ][ ][ ][ ][ ]
+     * //   A  B  C  D  E  F
+     * // 1( )(X)( )( )( )( )
+     * // 2{X}{X}{ }{ }{ }{ }
+     * // 3{ }{ }{ }{X}{X}{X}
+     * // 4{ }{ }{ }{ }{ }{ }
+     * // 5{ }{ }{X}{ }{ }{ }
+     * // 6[ ][ ][ ][ ][ ][ ]
+     * // 7[X][X][X][ ][ ][ ]
+     * // 8[ ][ ][ ][ ][ ][ ]
+     * // 9[ ][X][ ][ ][ ][X]
+     * //10[ ][ ][ ][ ][ ][ ]
      */
-    public void imprimirMatrizAsientos(){
+    public void imprimirMatrizAsientos() {
         System.out.print("    ");
         for (int i = 1; i <= avion.getColumnas(); i++) {
             System.out.printf("%c  ", 64 + i);
@@ -356,7 +365,7 @@ public class Vuelo {
         System.out.println();
         for (int f = 2; f < 6; f++) {
             System.out.printf(" %2d", f);
-            for (int c = 1; c <= avion.getColumnas(); c++){
+            for (int c = 1; c <= avion.getColumnas(); c++) {
                 if (asientoOcupado(f, c)) {
                     System.out.print("{X}");
                 } else {
@@ -367,7 +376,7 @@ public class Vuelo {
         }
         for (int f = 6; f <= avion.getFilas(); f++) {
             System.out.printf(" %2d", f);
-            for (int c = 1; c <= avion.getColumnas(); c++){
+            for (int c = 1; c <= avion.getColumnas(); c++) {
                 if (asientoOcupado(f, c)) {
                     System.out.print("[X]");
                 } else {
@@ -380,139 +389,122 @@ public class Vuelo {
 
     /**
      * Genera una lista con los pasajeros del vuelo (con formato)
+     *
      * @param fichero fichero donde se quiere generar la lista con los pasajeros
      * @return devuelve true si ha podido escribir en el fichero la lista de pasajeros del vuelo
      */
     //Devuelve true si ha podido escribir en un fichero la lista de pasajeros del vuelo, siguiendo las indicaciones del enunciado
     public boolean generarListaPasajeros(String fichero) {
-        boolean ficheroActualizado = false;
+        boolean ficheroPasajeros = false;
         Billete billete = null;
-        FileWriter fileWriter = null;
+        PrintWriter printWriterF = null;
         char[] letraAsiento = {'A', 'B', 'C', 'D', 'E', 'F'};
         try {
-            fileWriter = new FileWriter(fichero, true);
-            fileWriter.write("--------------------------------------------------\n");
-            fileWriter.write("--------- Lista de pasajeros en vuelo " + this.id + " ---------\n");
-            fileWriter.write("--------------------------------------------------\n");
-            fileWriter.write("Asiento Tipo        Pasajero");
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 6; j++) {
-                    if (asientos[i + 1][j + 1]) {
-                        fileWriter.write(i + "" + letraAsiento[j] + "       " + (billete.getTipo() == Billete.TIPO.PREFERENTE ? billete.getTipo().toString() : billete.getTipo().toString() + "   ") + "  " +
-                                billete.getPasajero().toString());
-                    } else {
-                        fileWriter.write(i + "" + letraAsiento[j]);
+            printWriterF = new PrintWriter(fichero);
+            printWriterF.write("--------------------------------------------------\n");
+            printWriterF.write("--------- Lista de pasajeros en vuelo " + id + " ---------\n");
+            printWriterF.write("--------------------------------------------------\n");
+            printWriterF.write("Asiento Tipo        Pasajero");
+            for (int i = 0; i < avion.getFilas(); i++) {
+                for (int k = 0; k < avion.getColumnas(); k++) {
+                    billete = buscarBillete(i + 1, k + 1);
+                    printWriterF.write(String.valueOf(i + 1) + ((char) (k + 65)) + "\t\t");
+
+                    if (billete != null) {
+                        printWriterF.write(billete.getTipo().name() + "\t");
+                        printWriterF.write(billete.getPasajero().toString());
                     }
                 }
             }
-        } catch (FileNotFoundException excepcion1) {
-            System.out.println("El fichero " + fichero + " no encontrado");
-            ficheroActualizado = false;
-        } catch (IOException excepcion2) {
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println("Fichero " + fichero + " no encontrado.");
+            ficheroPasajeros = false;
+        } catch (IOException ioException) {
             System.out.println("Error de escritura en fichero " + fichero + ".");
-            ficheroActualizado = false;
+            ficheroPasajeros = false;
         } finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException excepcion3) {
-                    System.out.println("Error de cierre del fichero " + fichero + ".");
-                    ficheroActualizado = false;
-                }
+            if (printWriterF != null) {
+                printWriterF.close();
             }
         }
-        return ficheroActualizado;
+        return ficheroPasajeros;
     }
 
     //Métodos estáticos
 
     /**
      * Genera id aleatorios
+     *
      * @param rand parámetro aleatorio
      * @return devuelve id's aleatorios para el vuelo
      */
     //Genera un ID de vuelo. Este consistirá en una cadena de 6 caracteres, de los cuales los dos
     //primeros serán PM y los 4 siguientes serán números aleatorios. Ejemplo: PM0123
     //NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.
-    public static String generarID(Random rand){
+    public static String generarID(Random rand) {
         return String.format("PM%04d", rand.nextInt(9999));
-
-        /*
-        String idaGenerar;
-        int a1 = rand.nextInt(10);
-        int a2 = rand.nextInt(10);
-        int a3 = rand.nextInt(10);
-        int a4 = rand.nextInt(10);
-        idaGenerar = "PM" + a1 + "" + a2 + "" + a3 + "" + a4;
-        return idaGenerar;
-
-        */
     }
 
 
     /**
      * Da de alta a un vuelo con un avión que va de un aeropuerto a otro
      * Cada vuelo tiene sus atributos correspondientes, si se pasa algun parametro mal, se pregunta nuevamente
-     * @param teclado pasa por parámetro el teclado para no tener que declararlo
-     * @param rand número aleatorio para generar el ID del vuelo
+     *
+     * @param teclado     pasa por parámetro el teclado para no tener que declararlo
+     * @param rand        número aleatorio para generar el ID del vuelo
      * @param aeropuertos lista de aeropuertos entre los que puede ir el avión
-     * @param aviones lista de aviones que pueden usarse en el vuelo
-     * @param vuelos lista de vuelos que ya existen para no dar la misma id a dos vuelos distintos
+     * @param aviones     lista de aviones que pueden usarse en el vuelo
+     * @param vuelos      lista de vuelos que ya existen para no dar la misma id a dos vuelos distintos
      * @return devuelve el vuelo que se acaba de crear
      */
     //Crea y devuelve un objeto Vuelo de los datos que selecciona el usuario de aeropuertos y aviones y la restricción de que
     //no puede estar repetido el identificador, siguiendo las indicaciones del enunciado
     //La función solicita repetidamente los parametros hasta que sean correctos
     public static Vuelo altaVuelo(Scanner teclado, Random rand, ListaAeropuertos aeropuertos, ListaAviones aviones, ListaVuelos vuelos) {
-        if (!vuelos.estaLlena()) {
-            boolean vueloCorrecto = false;
-            String vueloID;
+        boolean vueloCorrecto = false;
+        boolean fechaCorrecta;
+        Fecha fechaLlegada;
+        Fecha fechaSalida;
 
-            do {
-                vueloID = generarID(rand);
-                for (int i = 0; i < vuelos.getOcupacion(); i++) {
-                    if (vueloID.equals(vuelos.getVuelo(i + 1).getID())) {
-                        vueloCorrecto = true;
-                    }
-                }
-            } while (vueloCorrecto);
+        //Información de los Aeropuertos
+        Aeropuerto origen = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
+        String primerMensaje = "Ingrese Terminal Origen (1 - " + origen.getTerminales() + "):";
+        int terminalOrigen = Utilidades.leerNumero(teclado, primerMensaje, 1, origen.getTerminales());
+        Aeropuerto destino = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
+        String segundoMensaje = "Ingrese Terminal Destino (1 - " + destino.getTerminales() + "):";
+        int terminalDestino = Utilidades.leerNumero(teclado, segundoMensaje, 1, destino.getTerminales());
 
-            Aeropuerto origen = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
-            String primerMensaje = "Ingrese Terminal Origen (1 - " + origen.getTerminales() + "):";
-            int terminalOrigen = Utilidades.leerNumero(teclado, primerMensaje, 1, origen.getTerminales());
+        //Información del avión
+        double distancia = origen.distancia(destino);
+        Avion avion = aviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
 
-            Aeropuerto destino = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
-            String segundoMensaje = "Ingrese Terminal Destino (1 - " + destino.getTerminales() + "):";
-            int terminalDestino = Utilidades.leerNumero(teclado, segundoMensaje, 1, destino.getTerminales());
+        //Comprobamos la fecha
+        do {
+            fechaSalida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:");
+            fechaLlegada = Utilidades.leerFechaHora(teclado, "Fecha de Llegada:");
 
-            double distancia = origen.distancia(destino);
-            Avion avion = aviones.seleccionarAvion(teclado, "Ingrese matrícula de Avión:", distancia);
-            Fecha llegada;
-            Fecha salida;
-            boolean fechaCorrecta = true;
+            if (fechaSalida.anterior(fechaLlegada)) fechaCorrecta = true;
+            else {
+                System.out.println("Llegada debe ser posterior a salida.");
+                fechaCorrecta = false;
+            }
+        } while (!fechaCorrecta);
 
-            do{
-                salida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:");
-                llegada = Utilidades.leerFechaHora(teclado, "Fecha de Llegada:");
+        //Información de ID
+        String vueloID;
+        do {
+            vueloID = generarID(rand);
+            for (int i = 0; i < vuelos.getOcupacion(); i++) {
+                if (vueloID.equals(vuelos.getVuelo(i + 1).getID())) vueloCorrecto = true;
+            }
+        } while (vueloCorrecto);
 
-                if (salida.anterior(llegada)) {
-                    fechaCorrecta = true;
-                }
-                else {
-                    System.out.println("Llegada debe ser posterior a salida.");
-                    fechaCorrecta = false;
-                }
-            }while(!fechaCorrecta);
+        double precio;
+        precio = Utilidades.leerNumero(teclado, "Ingrese precio de pasaje:", 0, (double) 999);
+        Vuelo vueloNuevo = new Vuelo(vueloID, avion, origen, terminalOrigen, fechaSalida, destino, terminalDestino, fechaLlegada, precio);
 
-            double precio = Utilidades.leerNumero(teclado, "Ingrese precio de pasaje:",0, 999);
-            Vuelo resultado = new Vuelo(vueloID, avion, origen, terminalOrigen, salida, destino, terminalDestino, llegada, precio);
-            System.out.println("Vuelo " + vueloID + " creado con éxito.");
-            vuelos.insertarVuelo(resultado);
-            return resultado;
-        }
-        else{
-            System.out.println("No se pueden dar de alta más vuelos.");
-            return null;
-        }
+        System.out.println("Vuelo " + vueloID + " creado con éxito.");
+        vuelos.insertarVuelo(vueloNuevo);
+        return vueloNuevo;
     }
 }
