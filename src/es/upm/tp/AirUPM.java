@@ -119,7 +119,15 @@ public class AirUPM {
     // Funcionalidad buscarVuelo especificada en el enunciado del proyecto, que devuelve una lista de vuelos entre dos aeropuertos y
     // con una fecha de salida solicitados por teclado al usuario en el orden y con los textos indicados en los ejemplos de
     // ejecución del enunciado
-    public ListaVuelos buscarVuelo(Scanner teclado);
+    public ListaVuelos buscarVuelo(Scanner teclado) {
+        System.out.print("Ingrese código de Aeropuerto Origen:");
+        String codigoAeropuertoOrigen = teclado.nextLine();
+        System.out.println("Ingrese código de Aeropuerto Destino:");
+        String codigoAeropuertoDestino = teclado.nextLine();
+        Fecha fecha = Utilidades.leerFecha(teclado, "Fecha de salida:");
+        return listaVuelos.buscarVuelos(codigoAeropuertoOrigen, codigoAeropuertoDestino, fecha);
+    }
+
     // Funcionalidad comprarBillete especificada en el enunciado del proyecto, que compra un billete para un vuelo especificado,
     // pidiendo por teclado los datos necesarios al usuario en el orden y con los textos indicados en los ejemplos de ejecución del
     // enunciado. Si la lista de pasajeros está vacía, creará un nuevo pasajero, si está llena seleccionará un pasajero, en cualquier
