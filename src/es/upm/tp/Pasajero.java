@@ -277,8 +277,7 @@ public class Pasajero {
         }while(emailIncorrecto);
 
         nuevoPasajero = new Pasajero(nombre, apellidos, numero, letra, email, maxBilletes);
-        //if (nuevoPasajero != null) pasajeros.insertarPasajero(nuevoPasajero);
-        pasajeros.insertarPasajero(nuevoPasajero);
+        if (nuevoPasajero != null) pasajeros.insertarPasajero(nuevoPasajero);
         return nuevoPasajero;
     }
 
