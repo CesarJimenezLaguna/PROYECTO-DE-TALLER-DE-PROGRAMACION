@@ -67,7 +67,8 @@ public class AirUPM {
         boolean ficheroAvion = listaAviones.escribirAvionesCsv(ficheroAviones);
         boolean ficheroVuelo = listaVuelos.escribirVuelosCsv(ficheroVuelos);
         boolean ficheroPasajero = listaPasajeros.escribirPasajerosCsv(ficheroPasajeros);
-        PrintWriter printWriterF = null;
+
+        FileWriter fileWriter = null;
         boolean datosGuardados = false;
 
         try {
@@ -76,7 +77,13 @@ public class AirUPM {
         } catch (IOException ioException) {
             System.out.println(ioException.getMessage());
         } finally {
-            if (printWriterF != null) printWriterF.close();
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         for (int i = 0; i < listaVuelos.getOcupacion(); i++){
@@ -133,7 +140,51 @@ public class AirUPM {
     // pidiendo por teclado los datos necesarios al usuario en el orden y con los textos indicados en los ejemplos de ejecución del
     // enunciado. Si la lista de pasajeros está vacía, creará un nuevo pasajero, si está llena seleccionará un pasajero, en cualquier
     // otro caso, deberá preguntar al usuario si crear o seleccionar
-    public void comprarBillete(Scanner teclado, Random rand, Vuelo vuelo);
+    public void comprarBillete(Scanner teclado, Random rand, Vuelo vuelo) {
+        char respuesta;
+        Pasajero pasajeroVuelo = null;
+        Billete billetePasajero = null;
+
+        if (vuelo.vueloLleno()) {
+            System.out.println("El vuelo " + vuelo.getID() + " está lleno, no se pueden comprar más billetes");
+        } else {
+
+            if (listaPasajeros.estaLlena()) { //Pasajero existente
+                pasajeroVuelo = listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI del pasajero:");
+                if (pasajeroVuelo.maxBilletesAlcanzado()) {
+                    System.out.println("El Pasajero seleccionado no puede adquirir más billetes.");
+                } else {
+                    billetePasajero = Billete.altaBillete(teclado, rand, vuelo, pasajeroVuelo);
+                    System.out.println("Billete " + billetePasajero.getLocalizador() + " comprado con éxito.");
+                }
+            } else {
+
+                do {
+                    respuesta = Utilidades.leerLetra(teclado, "¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)?", 'a', 'z');
+                    if (respuesta != 'n' && respuesta != 'e')
+                        System.out.println("El valor de entrada debe ser 'n' o 'e'");
+
+                    if (respuesta == 'n') {
+                        pasajeroVuelo = Pasajero.altaPasajero(teclado, listaPasajeros, maxBilletesPasajero);
+                        billetePasajero = Billete.altaBillete(teclado, rand, vuelo, pasajeroVuelo);
+                        //asiento acupado en la función alta
+                        System.out.println("Billete " + billetePasajero.getLocalizador() + " comprado con éxito.");
+                    }
+
+                    if (respuesta == 'e') {
+                        pasajeroVuelo = listaPasajeros.seleccionarPasajero(teclado, "Ingrese DNI del pasajero:");
+                        if (pasajeroVuelo.maxBilletesAlcanzado())
+                            System.out.println("El Pasajero seleccionado no puede adquirir más billetes.");
+                        else {
+                            billetePasajero = Billete.altaBillete(teclado, rand, vuelo, pasajeroVuelo);
+                            //si se ha ocupado el asiento
+                            System.out.println("Billete " + billetePasajero.getLocalizador() + " comprado con éxito.");
+                        }
+                    }
+                } while (respuesta != 'n' && respuesta != 'e');
+            }
+        }
+    }
 
     //Métodos estáticos
 

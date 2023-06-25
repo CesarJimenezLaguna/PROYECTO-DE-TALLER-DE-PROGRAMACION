@@ -484,7 +484,8 @@ public class Vuelo {
             fechaSalida = Utilidades.leerFechaHora(teclado, "Fecha de Salida:");
             fechaLlegada = Utilidades.leerFechaHora(teclado, "Fecha de Llegada:");
 
-            if (fechaSalida.anterior(fechaLlegada)) fechaCorrecta = true;
+            if (fechaSalida.anterior(fechaLlegada))
+                fechaCorrecta = true;
             else {
                 System.out.println("Llegada debe ser posterior a salida.");
                 fechaCorrecta = false;

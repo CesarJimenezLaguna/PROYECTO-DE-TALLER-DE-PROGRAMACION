@@ -128,7 +128,7 @@ public class Billete {
      * @return Devuelve la fila del asiento del billete comprado
      */
     public int getFila() {
-        return columna;
+        return fila;
     }
 
     /**

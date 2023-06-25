@@ -273,7 +273,6 @@ public class Pasajero {
             }
             if (!correctoEmail(email)){
                 emailIncorrecto = true;
-                System.out.println("DNI ya existe.");
             }
         }while(emailIncorrecto);
 

@@ -97,8 +97,8 @@ public class ListaAviones {
     public Avion buscarAvion(String matricula) {
         Avion resultado = null;
         for (int i = 0; i < ocupacion; i++) {
-            if (Objects.equals(ListaAviones[i].getMatricula(), matricula)) ;
-            resultado = ListaAviones[i];
+            if (Objects.equals(ListaAviones[i].getMatricula(), matricula))
+                resultado = ListaAviones[i];
         }
         return resultado;
     }
