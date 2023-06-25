@@ -123,7 +123,7 @@ public class Utilidades {
             dia = leerNumero(teclado, "Ingrese día:", 1, 31);
             mes = leerNumero(teclado, "Ingrese mes:", 1, 12);
             anio = leerNumero(teclado, "Ingrese año:", 1900, 3000);
-            hora = leerNumero(teclado, "Ingrese hora", 0, 23);
+            hora = leerNumero(teclado, "Ingrese hora:", 0, 23);
             minuto = leerNumero(teclado, "Ingrese minuto:", 0, 59);
             segundo = leerNumero(teclado, "Ingrese segundo:", 0, 59);
 
@@ -131,7 +131,7 @@ public class Utilidades {
                 System.out.println("Fecha u hora introducida incorrecta.");
             }
 
-        } while (!Fecha.comprobarFecha(dia, mes, anio) || !Fecha.comprobarFecha(hora, minuto, segundo));
+        } while (!Fecha.comprobarFecha(dia, mes, anio) || !Fecha.comprobarHora(hora, minuto, segundo));
         return new Fecha(dia, mes, anio, hora, minuto, segundo);
     }
 }

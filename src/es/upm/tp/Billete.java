@@ -158,12 +158,6 @@ public class Billete {
      * @return Devuelve el precio de un billete (dependiedo del tipo del mismo comprado)
      */
     public double getPrecio() {
-        if (tipo == TIPO.PRIMERA) {
-            precio = precio * 1.5;
-        }
-        if (tipo == TIPO.PREFERENTE) {
-            precio = precio * 1.25;
-        }
         return precio;
     }
 
@@ -176,7 +170,7 @@ public class Billete {
     public String toString() {
         return "Billete " + localizador + " para Vuelo " + vuelo.getID() + " de " + vuelo.getOrigen().getCodigo() + " T" + vuelo.getTerminalOrigen() + " (" + vuelo.getSalida().toString() + ") a "
                 + vuelo.getDestino().getCodigo() + " T" + vuelo.getTerminalDestino() + " (" + vuelo.getLlegada().toString() + ") en asiento " +
-                getAsiento() + " (" + getTipo() + ") por " + String.format("%.2f", getPrecio()).replace(".", ",") + "€";
+                getAsiento() + " (" + getTipo() + ") por " + String.format("%.2f", precio).replace(".", ",") + "€";
     }
 
     /**
@@ -193,9 +187,10 @@ public class Billete {
         if (!pasajero.cancelarBillete(localizador) || !vuelo.getListaBilletesVuelo().eliminarBillete(localizador)){
             cancelar = false;
         }
-        if (cancelar){
+        /*if (cancelar){
             System.out.println("Billete " + localizador + " cancelado.");
         }
+         */
         return cancelar;
     }
 
@@ -291,13 +286,13 @@ public class Billete {
 
         do {
             numeroFila = Utilidades.leerNumero(teclado, "Ingrese fila del asiento (1-" + vuelo.getAvion().getFilas() + "):", 1, vuelo.getAvion().getFilas());
-            columna = (char) (vuelo.getAvion().getColumnas() + 'A' - 1);
-            //columna = (char) (vuelo.getAvion().getColumnas() + 64);
+            //columna = (char) (vuelo.getAvion().getColumnas() + 'A' - 1);
+            columna = (char) (vuelo.getAvion().getColumnas() + 64);
 
             char letraColumna = Utilidades.leerLetra(teclado, "Ingrese columna del asiento (A-" + columna + "):", 'A', columna);
             asiento = String.valueOf(numeroFila) + String.valueOf(letraColumna);
-            numeroColumna = letraColumna - 'A' + 1;
-            //numeroColumna = letraColumna - 64;
+            //numeroColumna = letraColumna - 'A' + 1;
+            numeroColumna = letraColumna - 64;
 
             if (vuelo.asientoOcupado(numeroFila, numeroColumna))
                 System.out.println("El asiento " + asiento + " ya está reservado.");

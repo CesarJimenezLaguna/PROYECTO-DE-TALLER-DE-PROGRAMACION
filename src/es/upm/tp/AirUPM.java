@@ -71,7 +71,8 @@ public class AirUPM {
         boolean datosGuardados = false;
 
         try {
-            printWriterF = new PrintWriter(ficheroBilletes);
+            fileWriter = new FileWriter(ficheroBilletes);
+            fileWriter.write("");
         } catch (IOException ioException) {
             System.out.println(ioException.getMessage());
         } finally {
@@ -122,7 +123,7 @@ public class AirUPM {
     public ListaVuelos buscarVuelo(Scanner teclado) {
         System.out.print("Ingrese código de Aeropuerto Origen:");
         String codigoAeropuertoOrigen = teclado.nextLine();
-        System.out.println("Ingrese código de Aeropuerto Destino:");
+        System.out.print("Ingrese código de Aeropuerto Destino:");
         String codigoAeropuertoDestino = teclado.nextLine();
         Fecha fecha = Utilidades.leerFecha(teclado, "Fecha de salida:");
         return listaVuelos.buscarVuelos(codigoAeropuertoOrigen, codigoAeropuertoDestino, fecha);
@@ -219,7 +220,7 @@ public class AirUPM {
                 case 5:
                     Vuelo vuelo2 = airUPM.listaVuelos.seleccionarVuelo(scanner, "Ingrese ID del vuelo:","CANCELAR");
                     if (vuelo2 != null){
-                        System.out.println("Introduzca la ruta donde generar la lista de pasajeros:");
+                        System.out.print("Introduzca la ruta donde generar la lista de pasajeros:");
                         String rutaVuelo = scanner.nextLine();
                         if (vuelo2.generarListaPasajeros(rutaVuelo)){
                             System.out.println("Lista de pasajeros del Vuelo " + vuelo2.getID() + " generada en " + rutaVuelo);

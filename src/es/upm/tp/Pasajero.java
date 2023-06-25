@@ -1,6 +1,7 @@
 package es.upm.tp;
 
 import javax.swing.plaf.TreeUI;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.IllegalFormatCodePointException;
 import java.util.Locale;
 import java.util.Scanner;

@@ -401,9 +401,9 @@ public class Vuelo {
         char[] letraAsiento = {'A', 'B', 'C', 'D', 'E', 'F'};
         try {
             printWriterF = new PrintWriter(fichero);
-            printWriterF.write("--------------------------------------------------\n");
-            printWriterF.write("--------- Lista de pasajeros en vuelo " + id + " ---------\n");
-            printWriterF.write("--------------------------------------------------\n");
+            printWriterF.write("----------------------------------------------------\n");
+            printWriterF.write("------- Lista de pasajeros en vuelo " + id + " -------\n");
+            printWriterF.write("----------------------------------------------------\n");
             printWriterF.write("Asiento Tipo        Pasajero");
             for (int i = 0; i < avion.getFilas(); i++) {
                 for (int k = 0; k < avion.getColumnas(); k++) {
@@ -417,6 +417,7 @@ public class Vuelo {
                     if ((i + 1) != listaBilletesVuelo.getOcupacion() - 1) printWriterF.write("\n");
                 }
             }
+            ficheroPasajeros = true;
         } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("Fichero " + fichero + " no encontrado.");
             ficheroPasajeros = false;

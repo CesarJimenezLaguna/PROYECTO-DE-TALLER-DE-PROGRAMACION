@@ -1,9 +1,6 @@
 package es.upm.tp;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -178,10 +175,10 @@ public class ListaVuelos {
         boolean ficheroEscrito = true;
 
         try {
-            printWriterF = new PrintWriter(fichero);
+            printWriterF = new PrintWriter(new FileWriter(fichero, false));
             for (int i = 0; i < ocupacion; i++) {
                 vuelo = ListaVuelos[i];
-                printWriterF.write(vuelo.getID() + ";" + vuelo.getAvion().getMatricula() + ";" + vuelo.getOrigen().getCodigo() + ";" + vuelo.getTerminalOrigen()
+                printWriterF.print(vuelo.getID() + ";" + vuelo.getAvion().getMatricula() + ";" + vuelo.getOrigen().getCodigo() + ";" + vuelo.getTerminalOrigen()
                         + ";" + vuelo.getSalida().toString() + ";" + vuelo.getDestino().getCodigo() + ";" + vuelo.getTerminalDestino() + ";" + vuelo.getLlegada().toString()
                         + ";" + vuelo.getPrecio());
                 if (i != ocupacion - 1) printWriterF.println();

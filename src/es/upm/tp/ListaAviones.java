@@ -151,7 +151,7 @@ public class ListaAviones {
             printWriterF = new PrintWriter(nombre);
             for (int i = 0; i < ocupacion; i++){
                 avion = ListaAviones[i];
-                printWriterF.println(avion.getMarca() + ";" + avion.getModelo() + ";" + avion.getMatricula() + ";" + avion.getFilas() + ";" + avion.getColumnas() + ";" + avion.getAlcance());
+                printWriterF.print(avion.getMarca() + ";" + avion.getModelo() + ";" + avion.getMatricula() + ";" + avion.getFilas() + ";" + avion.getColumnas() + ";" + avion.getAlcance());
                 if (i != ocupacion - 1) printWriterF.println();
             }
         } catch (FileNotFoundException fileNotFoundException){
@@ -188,7 +188,7 @@ public class ListaAviones {
             scanner = new Scanner(new FileReader(fichero));
             do {
                 arrayAvion = scanner.nextLine().split(";");
-                avion = new Avion(arrayAvion[0], arrayAvion[1], arrayAvion[2], Integer.parseInt(arrayAvion[3]), Integer.parseInt(arrayAvion[4]), Double.parseDouble(arrayAvion[5]));
+                avion = new Avion(arrayAvion[0], arrayAvion[1], arrayAvion[2], Integer.parseInt(arrayAvion[4]), Integer.parseInt(arrayAvion[3]), Double.parseDouble(arrayAvion[5]));
                 listaAvionesCSV.insertarAvion(avion);
             } while (scanner.hasNext());
         }

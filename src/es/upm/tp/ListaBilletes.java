@@ -186,7 +186,7 @@ public class ListaBilletes {
             printWriterF = new PrintWriter(fichero);
             for(int i = 0; i < ocupacion; i++){
                 Billete infoBillete = ListaBilletes[i];
-                printWriterF.write(infoBillete.getLocalizador() + ";" + infoBillete.getVuelo().getID() + ";" + infoBillete.getPasajero().getDNI() + ";" + infoBillete.getTipo().name() + ";" + infoBillete.getFila() + ";" + infoBillete.getColumna() + ";" + infoBillete.getPrecio());
+                printWriterF.print(infoBillete.getLocalizador() + ";" + infoBillete.getVuelo().getID() + ";" + infoBillete.getPasajero().getDNI() + ";" + infoBillete.getTipo().name() + ";" + infoBillete.getFila() + ";" + infoBillete.getColumna() + ";" + infoBillete.getPrecio());
                 if (i != ocupacion - 1) printWriterF.println();
             }
         } catch (FileNotFoundException fileNotFoundException){
