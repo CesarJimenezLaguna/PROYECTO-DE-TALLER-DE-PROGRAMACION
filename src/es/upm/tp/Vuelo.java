@@ -402,7 +402,7 @@ public class Vuelo {
         try {
             printWriterF = new PrintWriter(fichero);
             printWriterF.write("----------------------------------------------------\n");
-            printWriterF.write("------- Lista de pasajeros en vuelo " + id + " -------\n");
+            printWriterF.write("-------- Lista de pasajeros en vuelo " + id + " --------\n");
             printWriterF.write("----------------------------------------------------\n");
             printWriterF.write("Asiento\tTipo        Pasajero\n");
             for (int i = 0; i < avion.getFilas(); i++) {

@@ -196,8 +196,12 @@ public class ListaBilletes {
             System.out.println("Error de escritura en fichero " + fichero + ".");
             billeteAñadido = false;
         } finally {
-            if(printWriterF != null){
-                printWriterF.close();
+            if(fileWriterF != null){
+                try {
+                    fileWriterF.close();
+                } catch (IOException ioException) {
+                    //throw new RuntimeException(ioException);
+                }
             }
         }
         return billeteAñadido;

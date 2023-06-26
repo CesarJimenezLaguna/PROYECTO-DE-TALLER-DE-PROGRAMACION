@@ -10,8 +10,8 @@ import java.util.Scanner;
 /**
  * Description of the class
  *
- * @author
- * @author
+ * @author César Jiménez Laguna
+ * @author Iñaki Ramos Iturria
  * @version 1.0
  */
 public class AirUPM {

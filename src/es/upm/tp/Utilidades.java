@@ -99,7 +99,7 @@ public class Utilidades {
         System.out.println(mensaje);
         do {
             dia = leerNumero(teclado, "Ingrese día:", 1, 31);
-            mes = leerNumero(teclado, "Ingrese año:", 1, 12);
+            mes = leerNumero(teclado, "Ingrese mes:", 1, 12);
             anio = leerNumero(teclado, "Ingrese año:", 1900, 3000);
             if (!Fecha.comprobarFecha(dia, mes, anio)) {
                 System.out.println("Fecha introducida incorrecta.");
