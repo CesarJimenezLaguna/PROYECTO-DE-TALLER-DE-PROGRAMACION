@@ -71,6 +71,7 @@ public class AirUPM {
         FileWriter fileWriter = null;
         boolean datosGuardados = false;
 
+
         try {
             fileWriter = new FileWriter(ficheroBilletes);
             fileWriter.write("");
@@ -86,8 +87,9 @@ public class AirUPM {
             }
         }
 
-        for (int i = 0; i < listaVuelos.getOcupacion(); i++){
-            listaVuelos.getVuelo(i + 1).aniadirBilletesCsv(ficheroBilletes);
+        //Sobreescribimos todos los ficheros paar que se guarden de manera correcta
+        for (int i = 1; i <= listaVuelos.getOcupacion(); i++){
+            listaVuelos.getVuelo(i).aniadirBilletesCsv(ficheroBilletes);
         }
 
         if (ficheroAeropuerto && ficheroAvion && ficheroVuelo && ficheroPasajero){
@@ -261,6 +263,7 @@ public class AirUPM {
                             System.out.print("Introduzca la ruta donde generar la factura:");
                             String rutaFichero = scanner.nextLine();
                             billete.generarFactura(rutaFichero);
+                            System.out.println(" generada en " + rutaFichero);
                         } else if (character == 'c') {
                             String localizadorBillete = billete.getLocalizador();
                             if (billete.cancelar()) System.out.println("Billete " + localizadorBillete + " cancelado.");

@@ -102,7 +102,7 @@ public class Utilidades {
             mes = leerNumero(teclado, "Ingrese año:", 1, 12);
             anio = leerNumero(teclado, "Ingrese año:", 1900, 3000);
             if (!Fecha.comprobarFecha(dia, mes, anio)) {
-                System.out.println("Fecha u hora introducida incorrecta.");
+                System.out.println("Fecha introducida incorrecta.");
             }
         } while (!Fecha.comprobarFecha(dia, mes, anio));
         return new Fecha(dia, mes, anio);

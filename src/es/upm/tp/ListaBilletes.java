@@ -179,15 +179,15 @@ public class ListaBilletes {
      */
     // Añade los billetes al final de un fichero CSV, sin sobreescribirlo
     public boolean aniadirBilletesCsv(String fichero) {
-        PrintWriter printWriterF = null;
+        FileWriter fileWriterF = null;
         boolean billeteAñadido = true;
 
         try {
-            printWriterF = new PrintWriter(fichero);
+            fileWriterF = new FileWriter(fichero, true);
             for(int i = 0; i < ocupacion; i++){
                 Billete infoBillete = ListaBilletes[i];
-                printWriterF.print(infoBillete.getLocalizador() + ";" + infoBillete.getVuelo().getID() + ";" + infoBillete.getPasajero().getDNI() + ";" + infoBillete.getTipo().name() + ";" + infoBillete.getFila() + ";" + infoBillete.getColumna() + ";" + infoBillete.getPrecio());
-                if (i != ocupacion - 1) printWriterF.println();
+                fileWriterF.write(infoBillete.getLocalizador() + ";" + infoBillete.getVuelo().getID() + ";" + infoBillete.getPasajero().getDNI() + ";" + infoBillete.getTipo().name() + ";" + infoBillete.getFila() + ";" + infoBillete.getColumna() + ";" + infoBillete.getPrecio());
+                if (i != ocupacion) fileWriterF.write("\n");
             }
         } catch (FileNotFoundException fileNotFoundException){
             System.out.println("Fichero " + fichero + " no encontrado.");

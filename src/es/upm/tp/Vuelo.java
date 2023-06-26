@@ -404,7 +404,7 @@ public class Vuelo {
             printWriterF.write("----------------------------------------------------\n");
             printWriterF.write("------- Lista de pasajeros en vuelo " + id + " -------\n");
             printWriterF.write("----------------------------------------------------\n");
-            printWriterF.write("Asiento Tipo        Pasajero");
+            printWriterF.write("Asiento\tTipo        Pasajero\n");
             for (int i = 0; i < avion.getFilas(); i++) {
                 for (int k = 0; k < avion.getColumnas(); k++) {
                     billete = buscarBillete(i + 1, k + 1);
@@ -412,6 +412,9 @@ public class Vuelo {
 
                     if (billete != null) {
                         printWriterF.write(billete.getTipo().name() + "\t");
+                        if (billete.getTipo().name().equals("TURISTA") || billete.getTipo().name().equals("PRIMERA")){
+                            printWriterF.write("\t");
+                        }
                         printWriterF.write(billete.getPasajero().toString());
                     }
                     if ((i + 1) != listaBilletesVuelo.getOcupacion() - 1) printWriterF.write("\n");

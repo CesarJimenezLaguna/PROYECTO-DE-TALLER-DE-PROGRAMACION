@@ -210,17 +210,17 @@ public class Billete {
             printWriterF.write("--------------------------------------------------\n");
             printWriterF.write("--------- Factura del billete " + localizador + " ---------\n");
             printWriterF.write("--------------------------------------------------\n");
-            printWriterF.write("Vuelo " + vuelo.getID() + "\n");
-            printWriterF.write("Origen " + vuelo.getOrigen().toStringSimple() + " T" + vuelo.getTerminalOrigen() + "\n");
-            printWriterF.write("Destino " + vuelo.getDestino().toStringSimple() + " T" + vuelo.getTerminalDestino() + "\n");
-            printWriterF.write("Salida " + vuelo.getSalida().toString() + "\n");
-            printWriterF.write("Llegada " + vuelo.getLlegada().toString() + "\n");
-            printWriterF.write("Pasajero " + pasajero.toString() + "\n");
+            printWriterF.write("Vuelo: " + vuelo.getID() + "\n");
+            printWriterF.write("Origen: " + vuelo.getOrigen().toStringSimple() + " T" + vuelo.getTerminalOrigen() + "\n");
+            printWriterF.write("Destino: " + vuelo.getDestino().toStringSimple() + " T" + vuelo.getTerminalDestino() + "\n");
+            printWriterF.write("Salida: " + vuelo.getSalida().toString() + "\n");
+            printWriterF.write("Llegada: " + vuelo.getLlegada().toString() + "\n");
+            printWriterF.write("Pasajero: " + pasajero.toString() + "\n");
             printWriterF.write("Tipo de billete: " + tipo.name() + "\n"); //el name está bien puesto?
-            printWriterF.write("Asiento " + this.getAsiento() + "\n");
+            printWriterF.write("Asiento: " + this.getAsiento() + "\n");
 
             String precio = String.format("%.2f", getPrecio());
-            printWriterF.write("Precio " + precio + "€");
+            printWriterF.write("Precio: " + precio + "€");
         }
         catch (FileNotFoundException fileNotFoundException){
             System.out.println("Fichero " + fichero + " no encontrado.");
@@ -238,7 +238,8 @@ public class Billete {
 
         //Si la factura se genera correctamente
         if (facturaGenerada){
-            System.out.println("Factura de Billete " + localizador + " generada en factura.csv");
+            //System.out.println("Factura de Billete " + localizador + " generada en factura.txt");
+            System.out.print("Factura de Billete " + localizador);
         }
         return facturaGenerada;
     }
