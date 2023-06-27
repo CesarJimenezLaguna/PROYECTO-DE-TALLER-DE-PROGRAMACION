@@ -335,20 +335,6 @@ public class Billete {
                 precioBilletes = vuelo.getPrecio();
         }
 
-        /*
-        String tipo;
-        switch(numeroFila){
-            case 1:
-                tipo = "PRIMERA"; precioBilletes = vuelo.getPrecioPrimera();
-                break;
-            case 2,3,4,5:
-                tipo = "PREFERENTE"; precioBilletes = vuelo.getPrecioPreferente();
-                break;
-            default: tipo = "TURISTA";precioBilletes= vuelo.getPrecio();
-        }
-
-         */
-
         Billete nuevoBillete = new Billete(generarLocalizador(rand, vuelo.getID()), vuelo, pasajero, tipo, numeroFila, numeroColumna, precioBilletes);
         //Billete nuevoBillete = new Billete(generarLocalizador(rand, vuelo.getID()), vuelo, pasajero, TIPO.valueOf(tipo), numeroFila, numeroColumna, precioBilletes);
 

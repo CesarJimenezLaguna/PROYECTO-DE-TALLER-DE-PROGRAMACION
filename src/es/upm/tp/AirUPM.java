@@ -125,7 +125,6 @@ public class AirUPM {
         FileWriter fileWriter = null;
         boolean datosGuardados = false;
 
-
         try {
             fileWriter = new FileWriter(ficheroBilletes);
             fileWriter.write("");
@@ -199,6 +198,13 @@ public class AirUPM {
         return insertado;
     }
 
+    /**
+     *
+     * Método que busca los vuelos los cuales tengas especificados un aeropuerto (salida-llegada) y fechas (salida-llegada)
+     *
+     * @param teclado objeto para guardar lo que escribe el usuario
+     * @return devuelve la lista de vuelos con el los aeropuertos de llegada y salida. Tambien, devuelve las fechas (llegada y salida)
+     */
     // Funcionalidad buscarVuelo especificada en el enunciado del proyecto, que devuelve una lista de vuelos entre dos aeropuertos y
     // con una fecha de salida solicitados por teclado al usuario en el orden y con los textos indicados en los ejemplos de
     // ejecución del enunciado
@@ -211,6 +217,14 @@ public class AirUPM {
         return listaVuelos.buscarVuelos(codigoAeropuertoOrigen, codigoAeropuertoDestino, fecha);
     }
 
+    /**
+     *
+     * Método que permite al usuario comprar un billete. De esta forma, le va pidiendo toda la información necesaria como el DNI
+     *
+     * @param teclado objeto para guardar lo que escribe el usuario
+     * @param rand número aleatorio para crear el idetificador de un billete (aleatorio)
+     * @param vuelo vuelo del cual se va a comprar un billete
+     */
     // Funcionalidad comprarBillete especificada en el enunciado del proyecto, que compra un billete para un vuelo especificado,
     // pidiendo por teclado los datos necesarios al usuario en el orden y con los textos indicados en los ejemplos de ejecución del
     // enunciado. Si la lista de pasajeros está vacía, creará un nuevo pasajero, si está llena seleccionará un pasajero, en cualquier
@@ -271,6 +285,13 @@ public class AirUPM {
 
     //Métodos estáticos
 
+    /**
+     *
+     * Muestra un menú con las opciones del programa, devuelve un (int) de la opción introducida por teclado
+     *
+     * @param teclado objeto que guarda lo que escribe el usuario
+     * @return devuelve la opción introducida por teclado
+     */
     // Muestra el menú y solicita una opción por teclado
     public static int menu(Scanner teclado) {
         int opcion;
@@ -282,9 +303,13 @@ public class AirUPM {
         System.out.println("0. Salir");
         opcion = Utilidades.leerNumero(teclado, "Seleccione opción:", 0, 5);
         return opcion;
-
     }
 
+    /**
+     * Método que ejecuta el programa AirUPM
+     *
+     * @param args argumentos con los que se inicia el programa
+     */
     // Carga los datos de los ficheros CSV pasados por argumento (consola) en AirUPM, llama iterativamente al menú y realiza la
     //  opción especificada hasta que se indique la opción Salir, y finalmente guarda los datos de AirUPM en los mismos ficheros CSV
     public static void main(String[] args) {

@@ -117,9 +117,10 @@ public class ListaAeropuertos {
     // La función solicita repetidamente el código hasta que se introduzca uno correcto
     public Aeropuerto seleccionarAeropuerto(Scanner teclado, String mensaje) {
         String codigoIATA;
+
         do {
             System.out.print(mensaje);
-            codigoIATA = teclado.nextLine();
+            codigoIATA = teclado.nextLine().toUpperCase();
             if (buscarAeropuerto(codigoIATA) == null) {
                 System.out.println("Código de aeropuerto no encontrado.");
             }
