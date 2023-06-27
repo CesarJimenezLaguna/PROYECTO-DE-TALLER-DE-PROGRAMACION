@@ -252,7 +252,16 @@ public class Pasajero {
             dniIncorrecto = false;
             numero = Utilidades.leerNumero(teclado, "Ingrese número de DNI:", 00000000L, 99999999L);
             numeroDNI = String.valueOf(String.format("%08d",numero));
-            letra = Utilidades.leerLetra(teclado, "Ingrese letra de DNI:", 'A','Z');
+
+            //Sólo se aceptan respuestas en minúsculas
+            //letra = Utilidades.leerLetra(teclado, "Ingrese letra de DNI:", 'A','Z');
+
+            //Acepta respuestas en mayúsculas y minúsculas indistintamente
+            do {
+                System.out.print("Ingrese letra de DNI:");
+                letra = Character.toUpperCase(teclado.nextLine().charAt(0));
+            } while (letra < 'A' || letra > 'Z');
+
             if (!correctoDNI(numero, letra)){
                 dniIncorrecto = true;
                 System.out.println("DNI incorrecto.");

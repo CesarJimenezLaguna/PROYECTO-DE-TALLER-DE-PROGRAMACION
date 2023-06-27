@@ -474,6 +474,7 @@ public class Vuelo {
         Aeropuerto origen = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Origen:");
         String primerMensaje = "Ingrese Terminal Origen (1 - " + origen.getTerminales() + "):";
         int terminalOrigen = Utilidades.leerNumero(teclado, primerMensaje, 1, origen.getTerminales());
+
         Aeropuerto destino = aeropuertos.seleccionarAeropuerto(teclado, "Ingrese código de Aeropuerto Destino:");
         String segundoMensaje = "Ingrese Terminal Destino (1 - " + destino.getTerminales() + "):";
         int terminalDestino = Utilidades.leerNumero(teclado, segundoMensaje, 1, destino.getTerminales());

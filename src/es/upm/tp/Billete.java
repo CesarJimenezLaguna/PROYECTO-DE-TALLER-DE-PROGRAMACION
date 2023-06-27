@@ -281,6 +281,7 @@ public class Billete {
         char columna;
         int numeroFila, numeroColumna;
         double precioBilletes;
+        char letraColumna;
 
         vuelo.imprimirMatrizAsientos();
         System.out.println("Tipo de asiento: '[ ]' = TURISTA, '{ }' = PREFERENTE, '( )' = PRIMERA");
@@ -290,13 +291,31 @@ public class Billete {
             //columna = (char) (vuelo.getAvion().getColumnas() + 'A' - 1);
             columna = (char) (vuelo.getAvion().getColumnas() + 64);
 
-            char letraColumna = Utilidades.leerLetra(teclado, "Ingrese columna del asiento (A-" + columna + "):", 'A', columna);
+            //Sólo se aceptan respuestas en minúsculas
+            //letraColumna = Utilidades.leerLetra(teclado, "Ingrese columna del asiento (A-" + columna + "):", 'A', columna);
+
+            //Acepta respuestas en mayúsculas y minúsculas indistintamente
+            do {
+                System.out.print("Ingrese columna del asiento (A-" + columna + "):");
+                letraColumna = Character.toUpperCase(teclado.nextLine().charAt(0));
+
+                asiento = String.valueOf(numeroFila) + String.valueOf(letraColumna);
+                numeroColumna = letraColumna - 64;
+
+                if (vuelo.asientoOcupado(numeroFila, numeroColumna))
+                    System.out.println("El asiento " + asiento + " ya está reservado.");
+
+
+            } while (letraColumna < 'A' || letraColumna > columna);
+
+            /*
             asiento = String.valueOf(numeroFila) + String.valueOf(letraColumna);
             //numeroColumna = letraColumna - 'A' + 1;
             numeroColumna = letraColumna - 64;
 
             if (vuelo.asientoOcupado(numeroFila, numeroColumna))
                 System.out.println("El asiento " + asiento + " ya está reservado.");
+             */
 
         } while(vuelo.asientoOcupado(numeroFila, numeroColumna));
 

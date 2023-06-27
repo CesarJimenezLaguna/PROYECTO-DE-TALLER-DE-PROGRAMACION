@@ -11,7 +11,7 @@ import java.util.Scanner;
  * Description of the class
  * Clase que representa el funcionamiento de una línea aérea. Cumple las funciones de reservar
  * asientos de 3 tipos distintos para pasajeros, los cuales, viajan a otros aeropuertos en aviones diferentes.
- * Tambien es posible generar facturas de billetes y listas de los pasajeros de los vuelos dados de alta.
+ * También es posible generar facturas de billetes y listas de los pasajeros de los vuelos dados de alta.
  * Todos los datos de los pasajeros, aviones, vuelos, aeropuertos y sus respectivos billetes son guardados y cargados en ficheros.
  *
  * @author César Jiménez Laguna
@@ -22,27 +22,27 @@ import java.util.Scanner;
 public class AirUPM {
 
     /**
-     * Atributo que representa la capacidad maxima de la lista de Aeropuertos
+     * Atributo que representa la capacidad máxima de la lista de Aeropuertos
      */
     private int maxAeropuertos;
 
     /**
-     * Atributo que representa la capacidad maxima de la lista de Aviones
+     * Atributo que representa la capacidad máxima de la lista de Aviones
      */
     private int maxAviones;
 
     /**
-     * Atributo que representa la capacidad maxima de la lista de Vuelos
+     * Atributo que representa la capacidad máxima de la lista de Vuelos
      */
     private int maxVuelos;
 
     /**
-     * Atributo que representa la capacidad maxima de la lista de Pasajeros
+     * Atributo que representa la capacidad máxima de la lista de Pasajeros
      */
     private int maxPasajeros;
 
     /**
-     * Atributo que representa la capacidad maxima de la lista de Billetes
+     * Atributo que representa la capacidad máxima de la lista de Billetes
      */
     private int maxBilletesPasajero;
 
@@ -69,7 +69,7 @@ public class AirUPM {
 
     /**
      * Constructor de la clase AirUPM
-     * Inicializa los atributos correspondientes, dentro de los parametros utilizados.
+     * Inicializa los atributos correspondientes, dentro de los parámetros utilizados.
      *
      * @param maxAeropuertos      número máximo de aeropuertos que admite el programa
      * @param maxAviones          número máximo de aviones que admite el programa
@@ -87,7 +87,7 @@ public class AirUPM {
 
     /**
      *
-     * Funcion que lee los datos de los ficheros iniciales pasados por parámetro y los añade a la clase AirUPM
+     * Función que lee los datos de los ficheros iniciales pasados por parámetro y los añade a la clase AirUPM
      *
      * @param ficheroAeropuertos fichero que contiene la lista de los aeropuertos
      * @param ficheroAviones     fichero que contiene la lista de los aviones
@@ -106,7 +106,7 @@ public class AirUPM {
 
     /**
      *
-     * Funcion que guarda los datos de AirUPM en los ficheros.csv especificados en el programa
+     * Función que guarda los datos de AirUPM en los ficheros.csv especificados en el programa
      *
      * @param ficheroAeropuertos fichero en donde se guardan los aeropuertos
      * @param ficheroAviones     fichero en donde se guardan los aviones
@@ -141,7 +141,7 @@ public class AirUPM {
             }
         }
 
-        //Sobreescribimos todos los ficheros paar que se guarden de manera correcta
+        //Sobreescribimos el fichero de los billetes paar que se guarden de manera correcta
         for (int i = 1; i <= listaVuelos.getOcupacion(); i++){
             listaVuelos.getVuelo(i).aniadirBilletesCsv(ficheroBilletes);
         }
@@ -153,7 +153,7 @@ public class AirUPM {
     }
 
     /**
-     * @return devuelve verdadero si se han alcanzado el maximo de vuelos posibles (si la lista de vuelos esta llena), sino indica falso
+     * @return devuelve verdadero si se han alcanzado el máximo de vuelos posibles (si la lista de vuelos esta llena), sino indica falso
      */
     public boolean maxVuelosAlcanzado() {
         return maxVuelos == listaVuelos.getOcupacion();
@@ -204,9 +204,9 @@ public class AirUPM {
     // ejecución del enunciado
     public ListaVuelos buscarVuelo(Scanner teclado) {
         System.out.print("Ingrese código de Aeropuerto Origen:");
-        String codigoAeropuertoOrigen = teclado.nextLine();
+        String codigoAeropuertoOrigen = teclado.nextLine().toUpperCase();
         System.out.print("Ingrese código de Aeropuerto Destino:");
-        String codigoAeropuertoDestino = teclado.nextLine();
+        String codigoAeropuertoDestino = teclado.nextLine().toUpperCase();
         Fecha fecha = Utilidades.leerFecha(teclado, "Fecha de salida:");
         return listaVuelos.buscarVuelos(codigoAeropuertoOrigen, codigoAeropuertoDestino, fecha);
     }
@@ -235,7 +235,15 @@ public class AirUPM {
             } else {
 
                 do {
-                    respuesta = Utilidades.leerLetra(teclado, "¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)?", 'a', 'z');
+                    //Sólo se aceptan respuestas en minúsculas
+                    //respuesta = Utilidades.leerLetra(teclado, "¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)?", 'a', 'z');
+
+                    //Acepta respuestas en mayúsculas y minúsculas indistintamente
+                    do {
+                        System.out.print("¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)?");
+                        respuesta = Character.toLowerCase(teclado.nextLine().charAt(0));
+                    } while (respuesta < 'a' || respuesta > 'z');
+
                     if (respuesta != 'n' && respuesta != 'e')
                         System.out.println("El valor de entrada debe ser 'n' o 'e'");
 
@@ -328,7 +336,15 @@ public class AirUPM {
                         char character;
 
                         do {
+                            //Sólo se aceptan respuestas en minúsculas
                             character = Utilidades.leerLetra(scanner, "¿Generar factura del billete (f), cancelarlo (c) o volver al menú (m)?", 'a', 'z');
+
+                            //Acepta respuestas en mayúsculas y minúsculas indistintamente
+                            do {
+                                System.out.print("¿Generar factura del billete (f), cancelarlo (c) o volver al menú (m)?");
+                                character = Character.toLowerCase(scanner.nextLine().charAt(0));
+                            } while (character < 'a' || character > 'z');
+
                             if (character != 'f' && character != 'c' && character != 'm') System.out.println("El valor de entrada debe ser 'f', 'c' o 'm'");
                         } while (character != 'f' && character != 'c' && character != 'm');
 
