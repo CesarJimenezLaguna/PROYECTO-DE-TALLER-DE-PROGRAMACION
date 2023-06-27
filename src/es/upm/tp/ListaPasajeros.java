@@ -155,14 +155,22 @@ public class ListaPasajeros {
     // La función solicita repetidamente hasta que se introduzca un DNI correcto
     public Pasajero seleccionarPasajero(Scanner teclado, String mensaje) {
         String DNI;
+        int num;
+        String letra;
+        String dniCompleto;
+
         do {
             System.out.print(mensaje);
             DNI = teclado.nextLine();
-            if (buscarPasajeroDNI(DNI) == null) {
+            letra = (String.valueOf(DNI.charAt(DNI.length() - 1))).toUpperCase();
+            num = Integer.parseInt(DNI.substring(0, DNI.length() - 1));
+            dniCompleto = String.format("%08d",num) + "" + letra;
+
+            if (buscarPasajeroDNI(dniCompleto) == null) {
                 System.out.println("DNI no encontrado.");
             }
-        } while (buscarPasajeroDNI(DNI) == null);
-        return buscarPasajeroDNI(DNI);
+        } while (buscarPasajeroDNI(dniCompleto) == null);
+        return buscarPasajeroDNI(dniCompleto);
     }
 
 
