@@ -9,29 +9,62 @@ import java.util.Scanner;
 
 /**
  * Description of the class
+ * Clase que representa el funcionamiento de una línea aérea. Cumple las funciones de reservar
+ * asientos de 3 tipos distintos para pasajeros, los cuales, viajan a otros aeropuertos en aviones diferentes.
+ * Tambien es posible generar facturas de billetes y listas de los pasajeros de los vuelos dados de alta.
+ * Todos los datos de los pasajeros, aviones, vuelos, aeropuertos y sus respectivos billetes son guardados y cargados en ficheros.
  *
  * @author César Jiménez Laguna
  * @author Iñaki Ramos Iturria
  * @version 1.0
  */
+
 public class AirUPM {
 
+    /**
+     * Atributo que representa la capacidad maxima de la lista de Aeropuertos
+     */
     private int maxAeropuertos;
 
+    /**
+     * Atributo que representa la capacidad maxima de la lista de Aviones
+     */
     private int maxAviones;
 
+    /**
+     * Atributo que representa la capacidad maxima de la lista de Vuelos
+     */
     private int maxVuelos;
 
+    /**
+     * Atributo que representa la capacidad maxima de la lista de Pasajeros
+     */
     private int maxPasajeros;
 
+    /**
+     * Atributo que representa la capacidad maxima de la lista de Billetes
+     */
     private int maxBilletesPasajero;
 
+
+    /**
+     * Objeto que contiene los aeropuertos disponibles del programa
+     */
     private ListaAeropuertos listaAeropuertos = null;
 
+    /**
+     * Objeto que contiene los aviones disponibles del programa
+     */
     private ListaAviones listaAviones = null;
 
+    /**
+     * Objeto que contiene los vuelos disponibles del programa
+     */
     private ListaVuelos listaVuelos = null;
 
+    /**
+     * Objeto que contiene los pasajeros disponibles del programa
+     */
     private ListaPasajeros listaPasajeros = null;
 
     /**
@@ -52,6 +85,16 @@ public class AirUPM {
         this.maxBilletesPasajero = maxBilletesPasajero;
     }
 
+    /**
+     *
+     * Funcion que lee los datos de los ficheros iniciales pasados por parámetro y los añade a la clase AirUPM
+     *
+     * @param ficheroAeropuertos fichero que contiene la lista de los aeropuertos
+     * @param ficheroAviones     fichero que contiene la lista de los aviones
+     * @param ficheroVuelos      fichero que contiene la lista de los vuelos
+     * @param ficheroPasajeros   fichero que contiene la lista de los pasajeros
+     * @param ficheroBilletes    fichero que contiene la lista de los billetes
+     */
     // Lee los datos de los ficheros especificados y los agrega a AirUPM
     public void cargarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes) {
         listaAeropuertos = ListaAeropuertos.leerAeropuertosCsv(ficheroAeropuertos, maxAeropuertos);
@@ -61,6 +104,17 @@ public class AirUPM {
         ListaBilletes.leerBilletesCsv(ficheroBilletes, listaVuelos, listaPasajeros);
     }
 
+    /**
+     *
+     * Funcion que guarda los datos de AirUPM en los ficheros.csv especificados en el programa
+     *
+     * @param ficheroAeropuertos fichero en donde se guardan los aeropuertos
+     * @param ficheroAviones     fichero en donde se guardan los aviones
+     * @param ficheroVuelos      fichero en donde se guardan los vuelos
+     * @param ficheroPasajeros   fichero en donde se guardan los pasajeros
+     * @param ficheroBilletes    fichero en donde se guardan los billetes
+     * @return la funcion devuelve verdadero si se guardan los datos correctamente, si no es asi, indica falso
+     */
     // Almacena los datos de AirUPM en los ficheros CSV especificados
     public boolean guardarDatos(String ficheroAeropuertos, String ficheroAviones, String ficheroVuelos, String ficheroPasajeros, String ficheroBilletes){
         boolean ficheroAeropuerto = listaAeropuertos.escribirAeropuertosCsv(ficheroAeropuertos);
@@ -98,10 +152,20 @@ public class AirUPM {
         return datosGuardados;
     }
 
+    /**
+     * @return devuelve verdadero si se han alcanzado el maximo de vuelos posibles (si la lista de vuelos esta llena), sino indica falso
+     */
     public boolean maxVuelosAlcanzado() {
         return maxVuelos == listaVuelos.getOcupacion();
     }
 
+    /**
+     *
+     * Inserta un vuelo de la lista de Vuelos disponibles
+     *
+     * @param vuelo vuelo que se inserta por parámetro
+     * @return devuleve verdadero se se ha insertado correctamente el vuelo y falso en caso contrario
+     */
     public boolean insertarVuelo(Vuelo vuelo) {
         boolean insertado;
         if (maxVuelosAlcanzado()) insertado = false;
@@ -112,10 +176,19 @@ public class AirUPM {
         return insertado;
     }
 
+    /**
+     * @return devuelve verdadero si se ha alcanzado el numero maximo de pasajeros (listaPasajeros), en caso contrario devuelve falso
+     */
     public boolean maxPasajerosAlcanzado() {
         return (maxPasajeros == listaPasajeros.getOcupacion());
     }
 
+    /**
+     * Inserta un pasajero en la lista de pasajeros
+     *
+     * @param pasajero pasajero a insertar por parámetro
+     * @return devuelve verdadero si se ha insertado correctamente y falso si no se inserta
+     */
     public boolean insertarPasajero(Pasajero pasajero) {
         boolean insertado;
         if (maxPasajerosAlcanzado()) insertado = false;
