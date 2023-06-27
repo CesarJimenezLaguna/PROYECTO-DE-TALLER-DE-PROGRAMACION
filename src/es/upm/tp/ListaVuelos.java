@@ -151,7 +151,8 @@ public class ListaVuelos {
             System.out.print(mensaje);
             String pantalla = teclado.nextLine();
 
-            if (pantalla.equals(cancelar)) pararDePreguntar = true;
+            //if (pantalla.equals(cancelar)) pararDePreguntar = true;
+            if (pantalla.equalsIgnoreCase(cancelar)) pararDePreguntar = true;
             else {
                 vuelo = buscarVuelo(pantalla);
                 if (vuelo == null) System.out.println("ID de vuelo no encontrado.");

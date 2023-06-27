@@ -362,7 +362,7 @@ public class AirUPM {
 
                         do {
                             //Sólo se aceptan respuestas en minúsculas
-                            character = Utilidades.leerLetra(scanner, "¿Generar factura del billete (f), cancelarlo (c) o volver al menú (m)?", 'a', 'z');
+                            //character = Utilidades.leerLetra(scanner, "¿Generar factura del billete (f), cancelarlo (c) o volver al menú (m)?", 'a', 'z');
 
                             //Acepta respuestas en mayúsculas y minúsculas indistintamente
                             do {
