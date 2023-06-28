@@ -288,29 +288,28 @@ public class Billete {
 
         do {
             numeroFila = Utilidades.leerNumero(teclado, "Ingrese fila del asiento (1-" + vuelo.getAvion().getFilas() + "):", 1, vuelo.getAvion().getFilas());
-            //columna = (char) (vuelo.getAvion().getColumnas() + 'A' - 1);
             columna = (char) (vuelo.getAvion().getColumnas() + 64);
 
             //Sólo se aceptan respuestas en minúsculas
-            //letraColumna = Utilidades.leerLetra(teclado, "Ingrese columna del asiento (A-" + columna + "):", 'A', columna);
+            letraColumna = Utilidades.leerLetra(teclado, "Ingrese columna del asiento (A-" + columna + "):", 'A', columna);
 
             //Acepta respuestas en mayúsculas y minúsculas indistintamente
+            //no pilla bien si pones un número en la columna
+            /*
             do {
                 System.out.print("Ingrese columna del asiento (A-" + columna + "):");
                 letraColumna = Character.toUpperCase(teclado.nextLine().charAt(0));
 
-                asiento = String.valueOf(numeroFila) + String.valueOf(letraColumna);
-                numeroColumna = letraColumna - 64;
+                    asiento = String.valueOf(numeroFila) + String.valueOf(letraColumna);
+                    numeroColumna = letraColumna - 64;
 
-                if (vuelo.asientoOcupado(numeroFila, numeroColumna))
-                    System.out.println("El asiento " + asiento + " ya está reservado.");
-
+                    if (vuelo.asientoOcupado(numeroFila, numeroColumna))
+                        System.out.println("El asiento " + asiento + " ya está reservado.");
 
             } while (letraColumna < 'A' || letraColumna > columna);
+             */
 
-            /*
             asiento = String.valueOf(numeroFila) + String.valueOf(letraColumna);
-            //numeroColumna = letraColumna - 'A' + 1;
             numeroColumna = letraColumna - 64;
 
             if (vuelo.asientoOcupado(numeroFila, numeroColumna))

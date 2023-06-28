@@ -153,6 +153,7 @@ public class ListaVuelos {
 
             //if (pantalla.equals(cancelar)) pararDePreguntar = true;
             if (pantalla.equalsIgnoreCase(cancelar)) pararDePreguntar = true;
+
             else {
                 vuelo = buscarVuelo(pantalla);
                 if (vuelo == null) System.out.println("ID de vuelo no encontrado.");
