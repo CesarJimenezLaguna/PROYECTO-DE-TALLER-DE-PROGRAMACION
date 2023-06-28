@@ -314,7 +314,6 @@ public class Billete {
 
             if (vuelo.asientoOcupado(numeroFila, numeroColumna))
                 System.out.println("El asiento " + asiento + " ya está reservado.");
-             */
 
         } while(vuelo.asientoOcupado(numeroFila, numeroColumna));
 
